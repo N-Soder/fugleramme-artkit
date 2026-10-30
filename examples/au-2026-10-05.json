@@ -1,0 +1,2199 @@
+{
+ "schema_version": 1,
+ "source_url": "https://arnegiacomo.dev/fugleramme/species/",
+ "retrieved_at": "2026-10-05T05:13:02.448785+00:00",
+ "region": "Australia",
+ "scope": "AU; GBIF human observations with coordinates, PRESENT, Aves, 2017-2026; >=25 records per scientific-name facet; canonical BirdNET v2.4 intersection; excludes vagrants as upstream defines them.",
+ "upstream_revision": "d3b3a20df3903b376fd43cde3dcb00f501dba772",
+ "query_urls": [
+  "https://api.gbif.org/v1/occurrence/search?taxonKey=212&facet=scientificName&facetLimit=1200&facetOffset=0&facetMincount=25&limit=0&occurrenceStatus=PRESENT&basisOfRecord=HUMAN_OBSERVATION&hasCoordinate=true&year=2017%2C2026&country=AU",
+  "https://api.gbif.org/v1/occurrence/search?taxonKey=212&facet=scientificName&facetLimit=1200&facetOffset=1200&facetMincount=25&limit=0&occurrenceStatus=PRESENT&basisOfRecord=HUMAN_OBSERVATION&hasCoordinate=true&year=2017%2C2026&country=AU"
+ ],
+ "raw_sha256": {
+  "gbif-au-1200.json": "87aa7fca02d0f89d60a33bc971633d7af2aaf078b395910228bf97908b3b1bea",
+  "gbif-au-0.json": "3b0941995c4db64093b54a8538a89ac46972dedb41f73681c3ace8f80d28c365"
+ },
+ "complete": true,
+ "species": [
+  {
+   "scientific_name": "Acanthagenys rufogularis",
+   "records": 122024
+  },
+  {
+   "scientific_name": "Acanthis flammea",
+   "records": 341
+  },
+  {
+   "scientific_name": "Acanthiza apicalis",
+   "records": 48458
+  },
+  {
+   "scientific_name": "Acanthiza chrysorrhoa",
+   "records": 192287
+  },
+  {
+   "scientific_name": "Acanthiza ewingii",
+   "records": 19541
+  },
+  {
+   "scientific_name": "Acanthiza inornata",
+   "records": 7070
+  },
+  {
+   "scientific_name": "Acanthiza lineata",
+   "records": 119126
+  },
+  {
+   "scientific_name": "Acanthiza nana",
+   "records": 118981
+  },
+  {
+   "scientific_name": "Acanthiza pusilla",
+   "records": 443078
+  },
+  {
+   "scientific_name": "Acanthiza reguloides",
+   "records": 63591
+  },
+  {
+   "scientific_name": "Acanthiza uropygialis",
+   "records": 35925
+  },
+  {
+   "scientific_name": "Acanthorhynchus superciliosus",
+   "records": 12574
+  },
+  {
+   "scientific_name": "Acanthorhynchus tenuirostris",
+   "records": 266840
+  },
+  {
+   "scientific_name": "Acridotheres tristis",
+   "records": 483410
+  },
+  {
+   "scientific_name": "Acrocephalus australis",
+   "records": 163797
+  },
+  {
+   "scientific_name": "Actitis hypoleucos",
+   "records": 27045
+  },
+  {
+   "scientific_name": "Aegotheles cristatus",
+   "records": 36475
+  },
+  {
+   "scientific_name": "Agapornis roseicollis",
+   "records": 43
+  },
+  {
+   "scientific_name": "Ailuroedus crassirostris",
+   "records": 35530
+  },
+  {
+   "scientific_name": "Ailuroedus maculosus",
+   "records": 15100
+  },
+  {
+   "scientific_name": "Aix galericulata",
+   "records": 25
+  },
+  {
+   "scientific_name": "Alauda arvensis",
+   "records": 50036
+  },
+  {
+   "scientific_name": "Alectoris chukar",
+   "records": 26
+  },
+  {
+   "scientific_name": "Alectura lathami",
+   "records": 185360
+  },
+  {
+   "scientific_name": "Alisterus scapularis",
+   "records": 243691
+  },
+  {
+   "scientific_name": "Anarhynchus alexandrinus",
+   "records": 238
+  },
+  {
+   "scientific_name": "Anarhynchus bicinctus",
+   "records": 1964
+  },
+  {
+   "scientific_name": "Anarhynchus leschenaultii",
+   "records": 17351
+  },
+  {
+   "scientific_name": "Anarhynchus veredus",
+   "records": 1786
+  },
+  {
+   "scientific_name": "Anas castanea",
+   "records": 277873
+  },
+  {
+   "scientific_name": "Anas gracilis",
+   "records": 356374
+  },
+  {
+   "scientific_name": "Anas platyrhynchos",
+   "records": 38817
+  },
+  {
+   "scientific_name": "Anas superciliosa",
+   "records": 757227
+  },
+  {
+   "scientific_name": "Anhinga novaehollandiae",
+   "records": 241185
+  },
+  {
+   "scientific_name": "Anous minutus",
+   "records": 4018
+  },
+  {
+   "scientific_name": "Anous stolidus",
+   "records": 6421
+  },
+  {
+   "scientific_name": "Anous tenuirostris",
+   "records": 489
+  },
+  {
+   "scientific_name": "Anser anser",
+   "records": 3709
+  },
+  {
+   "scientific_name": "Anseranas semipalmata",
+   "records": 106027
+  },
+  {
+   "scientific_name": "Anthochaera carunculata",
+   "records": 769690
+  },
+  {
+   "scientific_name": "Anthochaera chrysoptera",
+   "records": 280555
+  },
+  {
+   "scientific_name": "Anthochaera lunulata",
+   "records": 11554
+  },
+  {
+   "scientific_name": "Anthochaera paradoxa",
+   "records": 41741
+  },
+  {
+   "scientific_name": "Anthochaera phrygia",
+   "records": 3334
+  },
+  {
+   "scientific_name": "Anthus novaeseelandiae",
+   "records": 21144
+  },
+  {
+   "scientific_name": "Antigone antigone",
+   "records": 4094
+  },
+  {
+   "scientific_name": "Antigone rubicunda",
+   "records": 44983
+  },
+  {
+   "scientific_name": "Aphelocephala leucopsis",
+   "records": 24181
+  },
+  {
+   "scientific_name": "Aplonis metallica",
+   "records": 27464
+  },
+  {
+   "scientific_name": "Aprosmictus erythropterus",
+   "records": 61876
+  },
+  {
+   "scientific_name": "Aptenodytes patagonicus",
+   "records": 1050
+  },
+  {
+   "scientific_name": "Apus nipalensis",
+   "records": 145
+  },
+  {
+   "scientific_name": "Apus pacificus",
+   "records": 8306
+  },
+  {
+   "scientific_name": "Ardea alba",
+   "records": 277104
+  },
+  {
+   "scientific_name": "Ardea ibis",
+   "records": 14731
+  },
+  {
+   "scientific_name": "Ardea intermedia",
+   "records": 10102
+  },
+  {
+   "scientific_name": "Ardea sumatrana",
+   "records": 2965
+  },
+  {
+   "scientific_name": "Ardenna bulleri",
+   "records": 938
+  },
+  {
+   "scientific_name": "Ardenna carneipes",
+   "records": 9438
+  },
+  {
+   "scientific_name": "Ardenna grisea",
+   "records": 4883
+  },
+  {
+   "scientific_name": "Ardenna pacifica",
+   "records": 21445
+  },
+  {
+   "scientific_name": "Ardenna tenuirostris",
+   "records": 19715
+  },
+  {
+   "scientific_name": "Arenaria interpres",
+   "records": 27771
+  },
+  {
+   "scientific_name": "Arses telescopthalmus",
+   "records": 77
+  },
+  {
+   "scientific_name": "Artamus cinereus",
+   "records": 51650
+  },
+  {
+   "scientific_name": "Artamus cyanopterus",
+   "records": 102671
+  },
+  {
+   "scientific_name": "Artamus leucorynchus",
+   "records": 67
+  },
+  {
+   "scientific_name": "Artamus personatus",
+   "records": 27262
+  },
+  {
+   "scientific_name": "Artamus superciliosus",
+   "records": 30602
+  },
+  {
+   "scientific_name": "Atrichornis clamosus",
+   "records": 1608
+  },
+  {
+   "scientific_name": "Atrichornis rufescens",
+   "records": 2013
+  },
+  {
+   "scientific_name": "Aviceda subcristata",
+   "records": 22932
+  },
+  {
+   "scientific_name": "Aythya fuligula",
+   "records": 235
+  },
+  {
+   "scientific_name": "Barnardius zonarius",
+   "records": 144446
+  },
+  {
+   "scientific_name": "Biziura lobata",
+   "records": 60762
+  },
+  {
+   "scientific_name": "Bolemoreus frenatus",
+   "records": 8030
+  },
+  {
+   "scientific_name": "Botaurus dubius",
+   "records": 434
+  },
+  {
+   "scientific_name": "Botaurus flavicollis",
+   "records": 482
+  },
+  {
+   "scientific_name": "Bulweria bulwerii",
+   "records": 464
+  },
+  {
+   "scientific_name": "Burhinus grallarius",
+   "records": 66788
+  },
+  {
+   "scientific_name": "Butorides striata",
+   "records": 44975
+  },
+  {
+   "scientific_name": "Cacatua galerita",
+   "records": 794344
+  },
+  {
+   "scientific_name": "Cacatua leadbeateri",
+   "records": 13056
+  },
+  {
+   "scientific_name": "Cacatua sanguinea",
+   "records": 349853
+  },
+  {
+   "scientific_name": "Cacatua tenuirostris",
+   "records": 114237
+  },
+  {
+   "scientific_name": "Cacomantis castaneiventris",
+   "records": 1549
+  },
+  {
+   "scientific_name": "Cacomantis flabelliformis",
+   "records": 157655
+  },
+  {
+   "scientific_name": "Cacomantis variolosus",
+   "records": 51245
+  },
+  {
+   "scientific_name": "Cairina moschata",
+   "records": 12754
+  },
+  {
+   "scientific_name": "Calamanthus fuliginosus",
+   "records": 15856
+  },
+  {
+   "scientific_name": "Calidris acuminata",
+   "records": 61638
+  },
+  {
+   "scientific_name": "Calidris alba",
+   "records": 8580
+  },
+  {
+   "scientific_name": "Calidris bairdii",
+   "records": 37
+  },
+  {
+   "scientific_name": "Calidris canutus",
+   "records": 15039
+  },
+  {
+   "scientific_name": "Calidris falcinellus",
+   "records": 2572
+  },
+  {
+   "scientific_name": "Calidris ferruginea",
+   "records": 30341
+  },
+  {
+   "scientific_name": "Calidris fuscicollis",
+   "records": 355
+  },
+  {
+   "scientific_name": "Calidris melanotos",
+   "records": 3263
+  },
+  {
+   "scientific_name": "Calidris minuta",
+   "records": 317
+  },
+  {
+   "scientific_name": "Calidris pugnax",
+   "records": 604
+  },
+  {
+   "scientific_name": "Calidris ruficollis",
+   "records": 67679
+  },
+  {
+   "scientific_name": "Calidris subminuta",
+   "records": 2864
+  },
+  {
+   "scientific_name": "Calidris subruficollis",
+   "records": 760
+  },
+  {
+   "scientific_name": "Calidris tenuirostris",
+   "records": 24119
+  },
+  {
+   "scientific_name": "Caligavis chrysops",
+   "records": 355280
+  },
+  {
+   "scientific_name": "Callipepla californica",
+   "records": 43
+  },
+  {
+   "scientific_name": "Callocephalon fimbriatum",
+   "records": 59260
+  },
+  {
+   "scientific_name": "Calyptorhynchus banksii",
+   "records": 81669
+  },
+  {
+   "scientific_name": "Calyptorhynchus lathami",
+   "records": 24274
+  },
+  {
+   "scientific_name": "Caprimulgus macrurus",
+   "records": 4480
+  },
+  {
+   "scientific_name": "Carduelis carduelis",
+   "records": 99977
+  },
+  {
+   "scientific_name": "Carterornis leucotis",
+   "records": 9640
+  },
+  {
+   "scientific_name": "Casuarius casuarius",
+   "records": 6276
+  },
+  {
+   "scientific_name": "Cecropis daurica",
+   "records": 102
+  },
+  {
+   "scientific_name": "Centropus phasianinus",
+   "records": 87387
+  },
+  {
+   "scientific_name": "Certhionyx variegatus",
+   "records": 6432
+  },
+  {
+   "scientific_name": "Ceyx azureus",
+   "records": 43390
+  },
+  {
+   "scientific_name": "Chalcites basalis",
+   "records": 59919
+  },
+  {
+   "scientific_name": "Chalcites lucidus",
+   "records": 90383
+  },
+  {
+   "scientific_name": "Chalcites osculans",
+   "records": 5625
+  },
+  {
+   "scientific_name": "Chalcophaps indica",
+   "records": 27
+  },
+  {
+   "scientific_name": "Chalcophaps longirostris",
+   "records": 30206
+  },
+  {
+   "scientific_name": "Charadrius hiaticula",
+   "records": 200
+  },
+  {
+   "scientific_name": "Charadrius mongolus",
+   "records": 780
+  },
+  {
+   "scientific_name": "Charadrius semipalmatus",
+   "records": 352
+  },
+  {
+   "scientific_name": "Chenonetta jubata",
+   "records": 549513
+  },
+  {
+   "scientific_name": "Chlamydera maculata",
+   "records": 12496
+  },
+  {
+   "scientific_name": "Chlamydera nuchalis",
+   "records": 57353
+  },
+  {
+   "scientific_name": "Chlidonias hybrida",
+   "records": 55588
+  },
+  {
+   "scientific_name": "Chlidonias leucopterus",
+   "records": 8118
+  },
+  {
+   "scientific_name": "Chlidonias niger",
+   "records": 232
+  },
+  {
+   "scientific_name": "Chloris chloris",
+   "records": 23307
+  },
+  {
+   "scientific_name": "Chroicocephalus novaehollandiae",
+   "records": 570518
+  },
+  {
+   "scientific_name": "Chroicocephalus ridibundus",
+   "records": 61
+  },
+  {
+   "scientific_name": "Cincloramphus cruralis",
+   "records": 25919
+  },
+  {
+   "scientific_name": "Cincloramphus mathewsi",
+   "records": 52518
+  },
+  {
+   "scientific_name": "Cincloramphus timoriensis",
+   "records": 61152
+  },
+  {
+   "scientific_name": "Cinclosoma castaneothorax",
+   "records": 1333
+  },
+  {
+   "scientific_name": "Cinclosoma punctatum",
+   "records": 6914
+  },
+  {
+   "scientific_name": "Cinnyris jugularis",
+   "records": 126
+  },
+  {
+   "scientific_name": "Circus approximans",
+   "records": 94564
+  },
+  {
+   "scientific_name": "Cisticola exilis",
+   "records": 143041
+  },
+  {
+   "scientific_name": "Cisticola juncidis",
+   "records": 1009
+  },
+  {
+   "scientific_name": "Climacteris picumnus",
+   "records": 80231
+  },
+  {
+   "scientific_name": "Colluricincla boweri",
+   "records": 6227
+  },
+  {
+   "scientific_name": "Colluricincla harmonica",
+   "records": 536820
+  },
+  {
+   "scientific_name": "Colluricincla megarhyncha",
+   "records": 10926
+  },
+  {
+   "scientific_name": "Colluricincla rufogaster",
+   "records": 58056
+  },
+  {
+   "scientific_name": "Columba livia",
+   "records": 281025
+  },
+  {
+   "scientific_name": "Conopophila albogularis",
+   "records": 17856
+  },
+  {
+   "scientific_name": "Coracina lineata",
+   "records": 6883
+  },
+  {
+   "scientific_name": "Coracina novaehollandiae",
+   "records": 489873
+  },
+  {
+   "scientific_name": "Coracina papuensis",
+   "records": 81704
+  },
+  {
+   "scientific_name": "Cormobates leucophaea",
+   "records": 270321
+  },
+  {
+   "scientific_name": "Corvus coronoides",
+   "records": 600701
+  },
+  {
+   "scientific_name": "Corvus mellori",
+   "records": 424585
+  },
+  {
+   "scientific_name": "Corvus orru",
+   "records": 392520
+  },
+  {
+   "scientific_name": "Corvus splendens",
+   "records": 62
+  },
+  {
+   "scientific_name": "Corvus tasmanicus",
+   "records": 102963
+  },
+  {
+   "scientific_name": "Coturnix pectoralis",
+   "records": 18390
+  },
+  {
+   "scientific_name": "Cracticus nigrogularis",
+   "records": 297274
+  },
+  {
+   "scientific_name": "Cracticus torquatus",
+   "records": 562758
+  },
+  {
+   "scientific_name": "Cuculus optatus",
+   "records": 2443
+  },
+  {
+   "scientific_name": "Cygnus atratus",
+   "records": 351179
+  },
+  {
+   "scientific_name": "Cygnus olor",
+   "records": 850
+  },
+  {
+   "scientific_name": "Dacelo leachii",
+   "records": 52264
+  },
+  {
+   "scientific_name": "Dacelo novaeguineae",
+   "records": 729335
+  },
+  {
+   "scientific_name": "Daphoenositta chrysoptera",
+   "records": 45152
+  },
+  {
+   "scientific_name": "Daption capense",
+   "records": 2688
+  },
+  {
+   "scientific_name": "Dasyornis brachypterus",
+   "records": 3790
+  },
+  {
+   "scientific_name": "Dasyornis broadbenti",
+   "records": 6243
+  },
+  {
+   "scientific_name": "Dasyornis longirostris",
+   "records": 1392
+  },
+  {
+   "scientific_name": "Dendrocygna arcuata",
+   "records": 31553
+  },
+  {
+   "scientific_name": "Dendrocygna eytoni",
+   "records": 48583
+  },
+  {
+   "scientific_name": "Dicaeum hirundinaceum",
+   "records": 193548
+  },
+  {
+   "scientific_name": "Dicrurus bracteatus",
+   "records": 153328
+  },
+  {
+   "scientific_name": "Diomedea exulans",
+   "records": 1913
+  },
+  {
+   "scientific_name": "Drymodes brunneopygia",
+   "records": 9252
+  },
+  {
+   "scientific_name": "Ducula bicolor",
+   "records": 42
+  },
+  {
+   "scientific_name": "Ducula spilorrhoa",
+   "records": 56627
+  },
+  {
+   "scientific_name": "Eclectus roratus",
+   "records": 192
+  },
+  {
+   "scientific_name": "Edolisoma tenuirostre",
+   "records": 44380
+  },
+  {
+   "scientific_name": "Egretta garzetta",
+   "records": 119911
+  },
+  {
+   "scientific_name": "Egretta novaehollandiae",
+   "records": 488370
+  },
+  {
+   "scientific_name": "Egretta sacra",
+   "records": 32124
+  },
+  {
+   "scientific_name": "Entomyzon cyanotis",
+   "records": 229816
+  },
+  {
+   "scientific_name": "Eolophus roseicapilla",
+   "records": 810641
+  },
+  {
+   "scientific_name": "Eopsaltria australis",
+   "records": 323706
+  },
+  {
+   "scientific_name": "Eopsaltria capito",
+   "records": 2079
+  },
+  {
+   "scientific_name": "Epthianura tricolor",
+   "records": 15043
+  },
+  {
+   "scientific_name": "Erythropitta macklotii",
+   "records": 634
+  },
+  {
+   "scientific_name": "Erythrura trichroa",
+   "records": 963
+  },
+  {
+   "scientific_name": "Esacus magnirostris",
+   "records": 12906
+  },
+  {
+   "scientific_name": "Eudynamys orientalis",
+   "records": 134572
+  },
+  {
+   "scientific_name": "Eudyptes chrysocome",
+   "records": 312
+  },
+  {
+   "scientific_name": "Eudyptula minor",
+   "records": 11330
+  },
+  {
+   "scientific_name": "Eurostopodus argus",
+   "records": 4673
+  },
+  {
+   "scientific_name": "Eurostopodus mystacalis",
+   "records": 5334
+  },
+  {
+   "scientific_name": "Eurystomus orientalis",
+   "records": 87686
+  },
+  {
+   "scientific_name": "Falco berigora",
+   "records": 113738
+  },
+  {
+   "scientific_name": "Falco peregrinus",
+   "records": 35000
+  },
+  {
+   "scientific_name": "Falco subbuteo",
+   "records": 148
+  },
+  {
+   "scientific_name": "Falcunculus frontatus",
+   "records": 33053
+  },
+  {
+   "scientific_name": "Ficedula narcissina",
+   "records": 26
+  },
+  {
+   "scientific_name": "Fregata ariel",
+   "records": 4915
+  },
+  {
+   "scientific_name": "Fregata minor",
+   "records": 2382
+  },
+  {
+   "scientific_name": "Fulica atra",
+   "records": 422546
+  },
+  {
+   "scientific_name": "Gallinago hardwickii",
+   "records": 34801
+  },
+  {
+   "scientific_name": "Gallinago megala",
+   "records": 343
+  },
+  {
+   "scientific_name": "Gallinula tenebrosa",
+   "records": 424641
+  },
+  {
+   "scientific_name": "Gallirallus philippensis",
+   "records": 48077
+  },
+  {
+   "scientific_name": "Gallus gallus",
+   "records": 1707
+  },
+  {
+   "scientific_name": "Gavicalis fasciogularis",
+   "records": 15231
+  },
+  {
+   "scientific_name": "Gavicalis virescens",
+   "records": 191196
+  },
+  {
+   "scientific_name": "Gelochelidon nilotica",
+   "records": 8211
+  },
+  {
+   "scientific_name": "Geoffroyus geoffroyi",
+   "records": 1916
+  },
+  {
+   "scientific_name": "Geopelia humeralis",
+   "records": 282113
+  },
+  {
+   "scientific_name": "Geopelia placida",
+   "records": 280252
+  },
+  {
+   "scientific_name": "Gerygone chloronota",
+   "records": 5596
+  },
+  {
+   "scientific_name": "Gerygone fusca",
+   "records": 65353
+  },
+  {
+   "scientific_name": "Gerygone levigaster",
+   "records": 33529
+  },
+  {
+   "scientific_name": "Gerygone magnirostris",
+   "records": 13970
+  },
+  {
+   "scientific_name": "Gerygone mouki",
+   "records": 83859
+  },
+  {
+   "scientific_name": "Gerygone olivacea",
+   "records": 78509
+  },
+  {
+   "scientific_name": "Gerygone palpebrosa",
+   "records": 15888
+  },
+  {
+   "scientific_name": "Glareola maldivarum",
+   "records": 2398
+  },
+  {
+   "scientific_name": "Glareola pratincola",
+   "records": 65
+  },
+  {
+   "scientific_name": "Gliciphila melanops",
+   "records": 15694
+  },
+  {
+   "scientific_name": "Grallina cyanoleuca",
+   "records": 1143874
+  },
+  {
+   "scientific_name": "Grantiella picta",
+   "records": 4281
+  },
+  {
+   "scientific_name": "Gygis alba",
+   "records": 1346
+  },
+  {
+   "scientific_name": "Gymnorhina tibicen",
+   "records": 1600156
+  },
+  {
+   "scientific_name": "Haematopus finschi",
+   "records": 394
+  },
+  {
+   "scientific_name": "Haematopus fuliginosus",
+   "records": 62309
+  },
+  {
+   "scientific_name": "Haematopus longirostris",
+   "records": 149038
+  },
+  {
+   "scientific_name": "Haliastur indus",
+   "records": 61485
+  },
+  {
+   "scientific_name": "Haliastur sphenurus",
+   "records": 268382
+  },
+  {
+   "scientific_name": "Heteromyias cinereifrons",
+   "records": 12422
+  },
+  {
+   "scientific_name": "Heteroscenes pallidus",
+   "records": 33939
+  },
+  {
+   "scientific_name": "Himantopus himantopus",
+   "records": 23618
+  },
+  {
+   "scientific_name": "Himantopus leucocephalus",
+   "records": 157195
+  },
+  {
+   "scientific_name": "Hirundapus caudacutus",
+   "records": 28382
+  },
+  {
+   "scientific_name": "Hirundo neoxena",
+   "records": 960164
+  },
+  {
+   "scientific_name": "Hirundo rustica",
+   "records": 1085
+  },
+  {
+   "scientific_name": "Hirundo tahitica",
+   "records": 28
+  },
+  {
+   "scientific_name": "Hydrobates castro",
+   "records": 49
+  },
+  {
+   "scientific_name": "Hydrobates monorhis",
+   "records": 198
+  },
+  {
+   "scientific_name": "Hydroprogne caspia",
+   "records": 86947
+  },
+  {
+   "scientific_name": "Hylacola cauta",
+   "records": 2097
+  },
+  {
+   "scientific_name": "Icthyophaga leucogaster",
+   "records": 147213
+  },
+  {
+   "scientific_name": "Lalage leucomela",
+   "records": 92116
+  },
+  {
+   "scientific_name": "Lalage tricolor",
+   "records": 58535
+  },
+  {
+   "scientific_name": "Larus crassirostris",
+   "records": 28
+  },
+  {
+   "scientific_name": "Larus dominicanus",
+   "records": 42843
+  },
+  {
+   "scientific_name": "Larus fuscus",
+   "records": 34
+  },
+  {
+   "scientific_name": "Lathamus discolor",
+   "records": 12346
+  },
+  {
+   "scientific_name": "Leucophaeus atricilla",
+   "records": 114
+  },
+  {
+   "scientific_name": "Leucophaeus pipixcan",
+   "records": 95
+  },
+  {
+   "scientific_name": "Leucosarcia melanoleuca",
+   "records": 65353
+  },
+  {
+   "scientific_name": "Lewinia pectoralis",
+   "records": 8781
+  },
+  {
+   "scientific_name": "Lichenostomus cratitius",
+   "records": 6345
+  },
+  {
+   "scientific_name": "Lichenostomus melanops",
+   "records": 35862
+  },
+  {
+   "scientific_name": "Lichmera indistincta",
+   "records": 344701
+  },
+  {
+   "scientific_name": "Limnodromus semipalmatus",
+   "records": 1653
+  },
+  {
+   "scientific_name": "Limosa haemastica",
+   "records": 634
+  },
+  {
+   "scientific_name": "Limosa lapponica",
+   "records": 65639
+  },
+  {
+   "scientific_name": "Limosa limosa",
+   "records": 13124
+  },
+  {
+   "scientific_name": "Lonchura castaneothorax",
+   "records": 51302
+  },
+  {
+   "scientific_name": "Lonchura punctulata",
+   "records": 14827
+  },
+  {
+   "scientific_name": "Machaerirhynchus flaviventer",
+   "records": 9214
+  },
+  {
+   "scientific_name": "Macropygia phasianella",
+   "records": 87553
+  },
+  {
+   "scientific_name": "Malacorhynchus membranaceus",
+   "records": 70273
+  },
+  {
+   "scientific_name": "Malurus amabilis",
+   "records": 4687
+  },
+  {
+   "scientific_name": "Malurus assimilis",
+   "records": 40042
+  },
+  {
+   "scientific_name": "Malurus cyaneus",
+   "records": 875248
+  },
+  {
+   "scientific_name": "Malurus elegans",
+   "records": 13330
+  },
+  {
+   "scientific_name": "Malurus lamberti",
+   "records": 91073
+  },
+  {
+   "scientific_name": "Malurus leucopterus",
+   "records": 36796
+  },
+  {
+   "scientific_name": "Malurus melanocephalus",
+   "records": 110932
+  },
+  {
+   "scientific_name": "Malurus splendens",
+   "records": 55890
+  },
+  {
+   "scientific_name": "Manorina flavigula",
+   "records": 83170
+  },
+  {
+   "scientific_name": "Manorina melanocephala",
+   "records": 891981
+  },
+  {
+   "scientific_name": "Manorina melanophrys",
+   "records": 79890
+  },
+  {
+   "scientific_name": "Megaloprepia magnifica",
+   "records": 32283
+  },
+  {
+   "scientific_name": "Megapodius reinwardt",
+   "records": 55202
+  },
+  {
+   "scientific_name": "Melanodryas cucullata",
+   "records": 26355
+  },
+  {
+   "scientific_name": "Melanodryas vittata",
+   "records": 11325
+  },
+  {
+   "scientific_name": "Meleagris gallopavo",
+   "records": 552
+  },
+  {
+   "scientific_name": "Meliphaga lewinii",
+   "records": 323372
+  },
+  {
+   "scientific_name": "Meliphaga notata",
+   "records": 35353
+  },
+  {
+   "scientific_name": "Melithreptus affinis",
+   "records": 20501
+  },
+  {
+   "scientific_name": "Melithreptus albogularis",
+   "records": 95285
+  },
+  {
+   "scientific_name": "Melithreptus brevirostris",
+   "records": 76962
+  },
+  {
+   "scientific_name": "Melithreptus chloropsis",
+   "records": 12783
+  },
+  {
+   "scientific_name": "Melithreptus gularis",
+   "records": 18119
+  },
+  {
+   "scientific_name": "Melithreptus lunatus",
+   "records": 90553
+  },
+  {
+   "scientific_name": "Melithreptus validirostris",
+   "records": 8506
+  },
+  {
+   "scientific_name": "Melloria quoyi",
+   "records": 32963
+  },
+  {
+   "scientific_name": "Melopsittacus undulatus",
+   "records": 39175
+  },
+  {
+   "scientific_name": "Menura alberti",
+   "records": 6069
+  },
+  {
+   "scientific_name": "Menura novaehollandiae",
+   "records": 63057
+  },
+  {
+   "scientific_name": "Merops ornatus",
+   "records": 245485
+  },
+  {
+   "scientific_name": "Microeca fascinans",
+   "records": 71633
+  },
+  {
+   "scientific_name": "Microeca flavigaster",
+   "records": 23658
+  },
+  {
+   "scientific_name": "Milvus migrans",
+   "records": 166029
+  },
+  {
+   "scientific_name": "Mirafra javanica",
+   "records": 17675
+  },
+  {
+   "scientific_name": "Monarcha frater",
+   "records": 727
+  },
+  {
+   "scientific_name": "Monarcha melanopsis",
+   "records": 44634
+  },
+  {
+   "scientific_name": "Monticola solitarius",
+   "records": 28
+  },
+  {
+   "scientific_name": "Motacilla alba",
+   "records": 40
+  },
+  {
+   "scientific_name": "Motacilla cinerea",
+   "records": 97
+  },
+  {
+   "scientific_name": "Motacilla citreola",
+   "records": 76
+  },
+  {
+   "scientific_name": "Motacilla tschutschensis",
+   "records": 2233
+  },
+  {
+   "scientific_name": "Muscicapa sibirica",
+   "records": 34
+  },
+  {
+   "scientific_name": "Muscicapa williamsoni",
+   "records": 30
+  },
+  {
+   "scientific_name": "Myiagra alecto",
+   "records": 19512
+  },
+  {
+   "scientific_name": "Myiagra cyanoleuca",
+   "records": 11451
+  },
+  {
+   "scientific_name": "Myiagra inquieta",
+   "records": 59657
+  },
+  {
+   "scientific_name": "Myiagra nana",
+   "records": 24698
+  },
+  {
+   "scientific_name": "Myiagra rubecula",
+   "records": 99112
+  },
+  {
+   "scientific_name": "Myiagra ruficollis",
+   "records": 6915
+  },
+  {
+   "scientific_name": "Myzomela erythrocephala",
+   "records": 10126
+  },
+  {
+   "scientific_name": "Myzomela obscura",
+   "records": 45565
+  },
+  {
+   "scientific_name": "Myzomela sanguinolenta",
+   "records": 121603
+  },
+  {
+   "scientific_name": "Neochmia phaeton",
+   "records": 27029
+  },
+  {
+   "scientific_name": "Neochmia temporalis",
+   "records": 283429
+  },
+  {
+   "scientific_name": "Neophema pulchella",
+   "records": 9225
+  },
+  {
+   "scientific_name": "Neosericornis citreogularis",
+   "records": 31288
+  },
+  {
+   "scientific_name": "Nesoptilotis flavicollis",
+   "records": 49409
+  },
+  {
+   "scientific_name": "Nesoptilotis leucotis",
+   "records": 112924
+  },
+  {
+   "scientific_name": "Nettapus coromandelianus",
+   "records": 6158
+  },
+  {
+   "scientific_name": "Ninox boobook",
+   "records": 45513
+  },
+  {
+   "scientific_name": "Ninox connivens",
+   "records": 9316
+  },
+  {
+   "scientific_name": "Ninox novaeseelandiae",
+   "records": 7140
+  },
+  {
+   "scientific_name": "Ninox strenua",
+   "records": 21667
+  },
+  {
+   "scientific_name": "Northiella haematogaster",
+   "records": 24854
+  },
+  {
+   "scientific_name": "Numenius arquata",
+   "records": 60
+  },
+  {
+   "scientific_name": "Numenius madagascariensis",
+   "records": 54957
+  },
+  {
+   "scientific_name": "Numenius minutus",
+   "records": 2925
+  },
+  {
+   "scientific_name": "Numenius phaeopus",
+   "records": 49519
+  },
+  {
+   "scientific_name": "Numida meleagris",
+   "records": 6087
+  },
+  {
+   "scientific_name": "Nymphicus hollandicus",
+   "records": 41977
+  },
+  {
+   "scientific_name": "Ocyphaps lophotes",
+   "records": 670238
+  },
+  {
+   "scientific_name": "Onychoprion aleuticus",
+   "records": 441
+  },
+  {
+   "scientific_name": "Onychoprion anaethetus",
+   "records": 7482
+  },
+  {
+   "scientific_name": "Onychoprion fuscatus",
+   "records": 7437
+  },
+  {
+   "scientific_name": "Oreoica gutturalis",
+   "records": 36407
+  },
+  {
+   "scientific_name": "Oreoscopus gutturalis",
+   "records": 1815
+  },
+  {
+   "scientific_name": "Oriolus flavocinctus",
+   "records": 51955
+  },
+  {
+   "scientific_name": "Oriolus sagittatus",
+   "records": 188617
+  },
+  {
+   "scientific_name": "Orthonyx spaldingii",
+   "records": 4913
+  },
+  {
+   "scientific_name": "Orthonyx temminckii",
+   "records": 18044
+  },
+  {
+   "scientific_name": "Pachycephala inornata",
+   "records": 7934
+  },
+  {
+   "scientific_name": "Pachycephala lanioides",
+   "records": 2834
+  },
+  {
+   "scientific_name": "Pachycephala olivacea",
+   "records": 13439
+  },
+  {
+   "scientific_name": "Pachycephala pectoralis",
+   "records": 343904
+  },
+  {
+   "scientific_name": "Pachycephala rufiventris",
+   "records": 352431
+  },
+  {
+   "scientific_name": "Pachycephala simplex",
+   "records": 14504
+  },
+  {
+   "scientific_name": "Pandion haliaetus",
+   "records": 74594
+  },
+  {
+   "scientific_name": "Pardalotus punctatus",
+   "records": 374372
+  },
+  {
+   "scientific_name": "Pardalotus rubricatus",
+   "records": 6382
+  },
+  {
+   "scientific_name": "Pardalotus striatus",
+   "records": 450248
+  },
+  {
+   "scientific_name": "Passer domesticus",
+   "records": 287650
+  },
+  {
+   "scientific_name": "Passer montanus",
+   "records": 4634
+  },
+  {
+   "scientific_name": "Pavo cristatus",
+   "records": 6030
+  },
+  {
+   "scientific_name": "Pelecanus conspicillatus",
+   "records": 364629
+  },
+  {
+   "scientific_name": "Pernis ptilorhynchus",
+   "records": 395
+  },
+  {
+   "scientific_name": "Petrochelidon ariel",
+   "records": 116079
+  },
+  {
+   "scientific_name": "Petrochelidon nigricans",
+   "records": 178251
+  },
+  {
+   "scientific_name": "Petroica boodang",
+   "records": 77896
+  },
+  {
+   "scientific_name": "Petroica goodenovii",
+   "records": 54746
+  },
+  {
+   "scientific_name": "Petroica phoenicea",
+   "records": 38630
+  },
+  {
+   "scientific_name": "Petroica rodinogaster",
+   "records": 11359
+  },
+  {
+   "scientific_name": "Petroica rosea",
+   "records": 35379
+  },
+  {
+   "scientific_name": "Pezoporus wallicus",
+   "records": 2566
+  },
+  {
+   "scientific_name": "Phaethon lepturus",
+   "records": 609
+  },
+  {
+   "scientific_name": "Phaethon rubricauda",
+   "records": 3695
+  },
+  {
+   "scientific_name": "Phalacrocorax carbo",
+   "records": 184332
+  },
+  {
+   "scientific_name": "Phalaropus lobatus",
+   "records": 197
+  },
+  {
+   "scientific_name": "Phaps chalcoptera",
+   "records": 188239
+  },
+  {
+   "scientific_name": "Phaps elegans",
+   "records": 21602
+  },
+  {
+   "scientific_name": "Phasianus colchicus",
+   "records": 628
+  },
+  {
+   "scientific_name": "Philemon buceroides",
+   "records": 53850
+  },
+  {
+   "scientific_name": "Philemon citreogularis",
+   "records": 138069
+  },
+  {
+   "scientific_name": "Philemon corniculatus",
+   "records": 222373
+  },
+  {
+   "scientific_name": "Phonygammus keraudrenii",
+   "records": 1462
+  },
+  {
+   "scientific_name": "Phylidonyris niger",
+   "records": 61261
+  },
+  {
+   "scientific_name": "Phylidonyris novaehollandiae",
+   "records": 400117
+  },
+  {
+   "scientific_name": "Phylidonyris pyrrhopterus",
+   "records": 58780
+  },
+  {
+   "scientific_name": "Phylloscopus borealis",
+   "records": 30
+  },
+  {
+   "scientific_name": "Pitta versicolor",
+   "records": 19865
+  },
+  {
+   "scientific_name": "Platycercus adscitus",
+   "records": 88792
+  },
+  {
+   "scientific_name": "Platycercus caledonicus",
+   "records": 52007
+  },
+  {
+   "scientific_name": "Platycercus elegans",
+   "records": 465818
+  },
+  {
+   "scientific_name": "Platycercus eximius",
+   "records": 377763
+  },
+  {
+   "scientific_name": "Plectorhyncha lanceolata",
+   "records": 60419
+  },
+  {
+   "scientific_name": "Plegadis falcinellus",
+   "records": 36866
+  },
+  {
+   "scientific_name": "Pluvialis dominica",
+   "records": 282
+  },
+  {
+   "scientific_name": "Pluvialis fulva",
+   "records": 28873
+  },
+  {
+   "scientific_name": "Pluvialis squatarola",
+   "records": 11512
+  },
+  {
+   "scientific_name": "Podargus ocellatus",
+   "records": 1702
+  },
+  {
+   "scientific_name": "Podargus strigoides",
+   "records": 128758
+  },
+  {
+   "scientific_name": "Podiceps cristatus",
+   "records": 44065
+  },
+  {
+   "scientific_name": "Poliolimnas cinereus",
+   "records": 4039
+  },
+  {
+   "scientific_name": "Polytelis anthopeplus",
+   "records": 11666
+  },
+  {
+   "scientific_name": "Polytelis swainsonii",
+   "records": 22146
+  },
+  {
+   "scientific_name": "Pomatostomus ruficeps",
+   "records": 8757
+  },
+  {
+   "scientific_name": "Pomatostomus superciliosus",
+   "records": 58642
+  },
+  {
+   "scientific_name": "Pomatostomus temporalis",
+   "records": 64404
+  },
+  {
+   "scientific_name": "Poodytes gramineus",
+   "records": 88167
+  },
+  {
+   "scientific_name": "Porphyrio melanotus",
+   "records": 366330
+  },
+  {
+   "scientific_name": "Porphyrio porphyrio",
+   "records": 66221
+  },
+  {
+   "scientific_name": "Prionodura newtoniana",
+   "records": 2070
+  },
+  {
+   "scientific_name": "Probosciger aterrimus",
+   "records": 2474
+  },
+  {
+   "scientific_name": "Psephotellus varius",
+   "records": 23731
+  },
+  {
+   "scientific_name": "Psephotus haematonotus",
+   "records": 233911
+  },
+  {
+   "scientific_name": "Psittacula eupatria",
+   "records": 242
+  },
+  {
+   "scientific_name": "Psittacula krameri",
+   "records": 694
+  },
+  {
+   "scientific_name": "Psitteuteles porphyrocephalus",
+   "records": 7914
+  },
+  {
+   "scientific_name": "Psitteuteles pusillus",
+   "records": 8821
+  },
+  {
+   "scientific_name": "Psophodes cristatus",
+   "records": 6110
+  },
+  {
+   "scientific_name": "Psophodes nigrogularis",
+   "records": 2719
+  },
+  {
+   "scientific_name": "Psophodes occidentalis",
+   "records": 3671
+  },
+  {
+   "scientific_name": "Psophodes olivaceus",
+   "records": 260609
+  },
+  {
+   "scientific_name": "Pterodroma cervicalis",
+   "records": 247
+  },
+  {
+   "scientific_name": "Pterodroma cookii",
+   "records": 663
+  },
+  {
+   "scientific_name": "Pterodroma inexpectata",
+   "records": 819
+  },
+  {
+   "scientific_name": "Pterodroma neglecta",
+   "records": 1572
+  },
+  {
+   "scientific_name": "Pterodroma nigripennis",
+   "records": 979
+  },
+  {
+   "scientific_name": "Ptilinopus regina",
+   "records": 29154
+  },
+  {
+   "scientific_name": "Ptilinopus superbus",
+   "records": 10483
+  },
+  {
+   "scientific_name": "Ptilonorhynchus violaceus",
+   "records": 148620
+  },
+  {
+   "scientific_name": "Ptiloris magnificus",
+   "records": 3112
+  },
+  {
+   "scientific_name": "Ptiloris paradiseus",
+   "records": 10465
+  },
+  {
+   "scientific_name": "Ptiloris victoriae",
+   "records": 15469
+  },
+  {
+   "scientific_name": "Ptilotula fusca",
+   "records": 41229
+  },
+  {
+   "scientific_name": "Ptilotula ornata",
+   "records": 30574
+  },
+  {
+   "scientific_name": "Ptilotula penicillata",
+   "records": 320660
+  },
+  {
+   "scientific_name": "Purnella albifrons",
+   "records": 19149
+  },
+  {
+   "scientific_name": "Purpureicephalus spurius",
+   "records": 27308
+  },
+  {
+   "scientific_name": "Pycnonotus jocosus",
+   "records": 37957
+  },
+  {
+   "scientific_name": "Pycnoptilus floccosus",
+   "records": 5622
+  },
+  {
+   "scientific_name": "Pygoscelis papua",
+   "records": 413
+  },
+  {
+   "scientific_name": "Pyrrholaemus brunneus",
+   "records": 7190
+  },
+  {
+   "scientific_name": "Pyrrholaemus sagittatus",
+   "records": 28666
+  },
+  {
+   "scientific_name": "Radjah radjah",
+   "records": 30445
+  },
+  {
+   "scientific_name": "Rallina tricolor",
+   "records": 1563
+  },
+  {
+   "scientific_name": "Ramsayornis modestus",
+   "records": 18361
+  },
+  {
+   "scientific_name": "Rhipidura albiscapa",
+   "records": 770909
+  },
+  {
+   "scientific_name": "Rhipidura dryas",
+   "records": 4773
+  },
+  {
+   "scientific_name": "Rhipidura fuliginosa",
+   "records": 96
+  },
+  {
+   "scientific_name": "Rhipidura leucophrys",
+   "records": 940202
+  },
+  {
+   "scientific_name": "Rhipidura rufifrons",
+   "records": 81694
+  },
+  {
+   "scientific_name": "Rhipidura rufiventris",
+   "records": 21566
+  },
+  {
+   "scientific_name": "Rhyticeros plicatus",
+   "records": 27
+  },
+  {
+   "scientific_name": "Scenopoeetes dentirostris",
+   "records": 5133
+  },
+  {
+   "scientific_name": "Scythrops novaehollandiae",
+   "records": 80165
+  },
+  {
+   "scientific_name": "Sericornis frontalis",
+   "records": 376786
+  },
+  {
+   "scientific_name": "Sericornis humilis",
+   "records": 24368
+  },
+  {
+   "scientific_name": "Sericornis magnirostra",
+   "records": 51179
+  },
+  {
+   "scientific_name": "Smicrornis brevirostris",
+   "records": 218321
+  },
+  {
+   "scientific_name": "Spatula clypeata",
+   "records": 417
+  },
+  {
+   "scientific_name": "Spatula querquedula",
+   "records": 43
+  },
+  {
+   "scientific_name": "Sphecotheres vieilloti",
+   "records": 293245
+  },
+  {
+   "scientific_name": "Spilopelia chinensis",
+   "records": 431225
+  },
+  {
+   "scientific_name": "Spilopelia senegalensis",
+   "records": 29912
+  },
+  {
+   "scientific_name": "Stagonopleura bella",
+   "records": 10419
+  },
+  {
+   "scientific_name": "Stercorarius antarcticus",
+   "records": 3120
+  },
+  {
+   "scientific_name": "Stercorarius longicaudus",
+   "records": 994
+  },
+  {
+   "scientific_name": "Stercorarius maccormicki",
+   "records": 228
+  },
+  {
+   "scientific_name": "Stercorarius parasiticus",
+   "records": 3696
+  },
+  {
+   "scientific_name": "Stercorarius pomarinus",
+   "records": 2301
+  },
+  {
+   "scientific_name": "Sterna dougallii",
+   "records": 2411
+  },
+  {
+   "scientific_name": "Sterna hirundo",
+   "records": 13598
+  },
+  {
+   "scientific_name": "Sterna paradisaea",
+   "records": 307
+  },
+  {
+   "scientific_name": "Sterna striata",
+   "records": 2918
+  },
+  {
+   "scientific_name": "Sterna sumatrana",
+   "records": 2447
+  },
+  {
+   "scientific_name": "Sterna vittata",
+   "records": 686
+  },
+  {
+   "scientific_name": "Sternula albifrons",
+   "records": 27648
+  },
+  {
+   "scientific_name": "Stipiturus malachurus",
+   "records": 15623
+  },
+  {
+   "scientific_name": "Stizoptera bichenovii",
+   "records": 118925
+  },
+  {
+   "scientific_name": "Stomiopera unicolor",
+   "records": 54234
+  },
+  {
+   "scientific_name": "Strepera fuliginosa",
+   "records": 24733
+  },
+  {
+   "scientific_name": "Strepera graculina",
+   "records": 628047
+  },
+  {
+   "scientific_name": "Strepera versicolor",
+   "records": 117782
+  },
+  {
+   "scientific_name": "Streptopelia roseogrisea",
+   "records": 445
+  },
+  {
+   "scientific_name": "Struthidea cinerea",
+   "records": 56939
+  },
+  {
+   "scientific_name": "Sturnus vulgaris",
+   "records": 431342
+  },
+  {
+   "scientific_name": "Sugomel nigrum",
+   "records": 4996
+  },
+  {
+   "scientific_name": "Sula dactylatra",
+   "records": 2054
+  },
+  {
+   "scientific_name": "Sula leucogaster",
+   "records": 10839
+  },
+  {
+   "scientific_name": "Sula sula",
+   "records": 2049
+  },
+  {
+   "scientific_name": "Syma torotoro",
+   "records": 1996
+  },
+  {
+   "scientific_name": "Symposiachrus trivirgatus",
+   "records": 44791
+  },
+  {
+   "scientific_name": "Synoicus chinensis",
+   "records": 2132
+  },
+  {
+   "scientific_name": "Synoicus ypsilophorus",
+   "records": 62007
+  },
+  {
+   "scientific_name": "Tachybaptus novaehollandiae",
+   "records": 300485
+  },
+  {
+   "scientific_name": "Tachyspiza cirrocephala",
+   "records": 7327
+  },
+  {
+   "scientific_name": "Tachyspiza fasciata",
+   "records": 16014
+  },
+  {
+   "scientific_name": "Tachyspiza novaehollandiae",
+   "records": 4233
+  },
+  {
+   "scientific_name": "Tadorna tadornoides",
+   "records": 109636
+  },
+  {
+   "scientific_name": "Taeniopygia guttata",
+   "records": 82467
+  },
+  {
+   "scientific_name": "Tanysiptera sylvia",
+   "records": 6544
+  },
+  {
+   "scientific_name": "Thalassarche melanophris",
+   "records": 11326
+  },
+  {
+   "scientific_name": "Thalasseus bengalensis",
+   "records": 10069
+  },
+  {
+   "scientific_name": "Thalasseus bergii",
+   "records": 201586
+  },
+  {
+   "scientific_name": "Thinornis melanops",
+   "records": 17640
+  },
+  {
+   "scientific_name": "Threskiornis molucca",
+   "records": 625392
+  },
+  {
+   "scientific_name": "Todiramphus chloris",
+   "records": 895
+  },
+  {
+   "scientific_name": "Todiramphus macleayii",
+   "records": 69770
+  },
+  {
+   "scientific_name": "Todiramphus sanctus",
+   "records": 229986
+  },
+  {
+   "scientific_name": "Todiramphus sordidus",
+   "records": 16286
+  },
+  {
+   "scientific_name": "Tribonyx mortierii",
+   "records": 39861
+  },
+  {
+   "scientific_name": "Tribonyx ventralis",
+   "records": 28715
+  },
+  {
+   "scientific_name": "Trichoglossus chlorolepidotus",
+   "records": 134126
+  },
+  {
+   "scientific_name": "Trichoglossus concinnus",
+   "records": 32597
+  },
+  {
+   "scientific_name": "Trichoglossus haematodus",
+   "records": 28
+  },
+  {
+   "scientific_name": "Trichoglossus moluccanus",
+   "records": 1112199
+  },
+  {
+   "scientific_name": "Trichoglossus rubritorquis",
+   "records": 45419
+  },
+  {
+   "scientific_name": "Tringa brevipes",
+   "records": 29469
+  },
+  {
+   "scientific_name": "Tringa glareola",
+   "records": 9757
+  },
+  {
+   "scientific_name": "Tringa guttifer",
+   "records": 1017
+  },
+  {
+   "scientific_name": "Tringa incana",
+   "records": 2538
+  },
+  {
+   "scientific_name": "Tringa nebularia",
+   "records": 38358
+  },
+  {
+   "scientific_name": "Tringa stagnatilis",
+   "records": 15083
+  },
+  {
+   "scientific_name": "Tringa totanus",
+   "records": 754
+  },
+  {
+   "scientific_name": "Turdus merula",
+   "records": 361563
+  },
+  {
+   "scientific_name": "Turdus philomelos",
+   "records": 1434
+  },
+  {
+   "scientific_name": "Turnix maculosus",
+   "records": 1464
+  },
+  {
+   "scientific_name": "Turnix varius",
+   "records": 17122
+  },
+  {
+   "scientific_name": "Tyto novaehollandiae",
+   "records": 4364
+  },
+  {
+   "scientific_name": "Tyto tenebricosa",
+   "records": 4861
+  },
+  {
+   "scientific_name": "Vanellus miles",
+   "records": 748863
+  },
+  {
+   "scientific_name": "Vanellus tricolor",
+   "records": 13189
+  },
+  {
+   "scientific_name": "Xanthotis macleayanus",
+   "records": 17263
+  },
+  {
+   "scientific_name": "Xenus cinereus",
+   "records": 12768
+  },
+  {
+   "scientific_name": "Zanda funerea",
+   "records": 183888
+  },
+  {
+   "scientific_name": "Zanda latirostris",
+   "records": 19921
+  },
+  {
+   "scientific_name": "Zapornia pusilla",
+   "records": 12319
+  },
+  {
+   "scientific_name": "Zapornia tabuensis",
+   "records": 22723
+  },
+  {
+   "scientific_name": "Zoothera heinei",
+   "records": 7707
+  },
+  {
+   "scientific_name": "Zoothera lunulata",
+   "records": 23001
+  },
+  {
+   "scientific_name": "Zosterops citrinella",
+   "records": 305
+  },
+  {
+   "scientific_name": "Zosterops lateralis",
+   "records": 509132
+  },
+  {
+   "scientific_name": "Zosterops luteus",
+   "records": 12834
+  }
+ ]
+}

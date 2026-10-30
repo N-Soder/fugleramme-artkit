@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fugart</title>
+<style>
+:root {
+  --paper: #f0ece5;
+  --sheet: #faf8f4;
+  --ink: #26221d;
+  --ink-2: #5c554b;
+  --ink-3: #8d857a;
+  --rule: #ddd6ca;
+  --rule-2: #e9e3d9;
+  --moss: #4f6b3c;
+  --moss-bg: #e3ead9;
+  --rust: #a4472c;
+  --rust-bg: #f4e0d6;
+  --ochre: #9a6b12;
+  --ochre-bg: #f3e7c8;
+  --sky: #46698f;
+  --focus: #2f5f8a;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1d1b18; --sheet: #26231f; --ink: #ece6dc; --ink-2: #b9b1a4; --ink-3: #8a8378;
+    --rule: #3a362f; --rule-2: #2f2c27; --moss: #9cbc83; --moss-bg: #2b3424; --rust: #e08a6c;
+    --rust-bg: #3d2720; --ochre: #d9ad57; --ochre-bg: #3a3020; --sky: #8fb2d6; --focus: #8fb2d6;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--paper); color: var(--ink); font: 14px/1.5 var(--sans); }
+a { color: var(--sky); }
+button, input, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.app { display: grid; grid-template-columns: 280px 1fr; grid-template-rows: 52px 1fr; height: 100vh; }
+header { grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; padding: 0 20px;
+  border-bottom: 1px solid var(--rule); background: var(--sheet); }
+.mark { font: 600 19px var(--serif); letter-spacing: .01em; }
+.mark small { font: 13px var(--sans); color: var(--ink-3); margin-left: 8px; }
+.coverage { color: var(--ink-2); font-size: 13px; }
+.coverage b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.spacer { flex: 1; }
+.who { display: flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 13px; }
+.who input { width: 130px; padding: 4px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--paper); }
+.inbox { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: var(--ochre-bg); color: var(--ochre); text-decoration: none; }
+.inbox.zero { background: transparent; color: var(--ink-3); }
+
+nav { overflow: auto; border-right: 1px solid var(--rule); padding: 16px 12px; }
+nav h2 { font: 600 11px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 18px 8px 6px; display: flex; justify-content: space-between; }
+nav h2:first-child { margin-top: 0; }
+nav h2 a { text-transform: none; letter-spacing: 0; font-weight: 500; text-decoration: none; }
+.navbird { display: block; padding: 8px 10px; border-radius: 8px; text-decoration: none; color: inherit; }
+.navbird:hover { background: var(--rule-2); }
+.navbird.on { background: var(--sheet); box-shadow: 0 0 0 1px var(--rule); }
+.navbird .n { display: flex; justify-content: space-between; gap: 8px; }
+.navbird .s { color: var(--ink-3); font-style: italic; font-size: 12px; }
+.dots { display: flex; gap: 3px; margin-top: 5px; }
+.dots i { width: 100%; height: 3px; border-radius: 2px; background: var(--rule); }
+.dots i.done { background: var(--moss); }
+.dots i.current { background: var(--ochre); }
+.flag { font-size: 11px; color: var(--ochre); }
+
+main { overflow: auto; padding: 28px 36px 60px; }
+.empty { color: var(--ink-3); margin-top: 18vh; text-align: center; font: 17px var(--serif); }
+.title h1 { font: 500 30px/1.15 var(--serif); margin: 0; }
+.title .sci { font: italic 16px var(--serif); color: var(--ink-2); margin-top: 4px; }
+.title .meta { color: var(--ink-3); font-size: 13px; margin-top: 6px; }
+
+.steps { display: flex; margin: 24px 0 22px; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; background: var(--sheet); }
+.steps button { flex: 1; border: 0; background: none; padding: 10px 6px 9px; cursor: pointer; border-right: 1px solid var(--rule); text-align: center; color: var(--ink-3); }
+.steps button:last-child { border-right: 0; }
+.steps button .k { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.steps button .v { display: block; font-size: 13px; margin-top: 1px; }
+.steps button.done { color: var(--moss); }
+.steps button.current { color: var(--ochre); background: var(--ochre-bg); }
+.steps button.on { box-shadow: inset 0 -3px 0 var(--ink); color: var(--ink); }
+
+.panel { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; align-items: start; }
+.panel.wide { grid-template-columns: 1fr; }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; margin-bottom: 16px; }
+.card h3 { font: 600 13px var(--sans); margin: 0 0 10px; }
+.card p { margin: 0 0 10px; color: var(--ink-2); }
+.card p:last-child { margin-bottom: 0; }
+dl { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; margin: 0; font-size: 13px; }
+dt { color: var(--ink-3); }
+dd { margin: 0; overflow-wrap: anywhere; }
+.pill { display: inline-block; font-size: 12px; padding: 1px 9px; border-radius: 99px; background: var(--rule-2); color: var(--ink-2); white-space: nowrap; }
+.pill.ok { background: var(--moss-bg); color: var(--moss); }
+.pill.bad { background: var(--rust-bg); color: var(--rust); }
+.pill.warn { background: var(--ochre-bg); color: var(--ochre); }
+
+.stage { position: relative; background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; overflow: auto; max-height: calc(100vh - 290px); min-height: 300px; display: grid; place-items: center; }
+.stage.blue { background: #46698f; }
+.stage.page { background: #f0ece5; }
+.stage img { display: block; max-width: 100%; max-height: calc(100vh - 300px); }
+.stage.full { place-items: start; }
+.stage.full img { max-width: none; max-height: none; }
+.tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--sheet); }
+.seg button { border: 0; background: none; padding: 5px 11px; cursor: pointer; color: var(--ink-2); border-right: 1px solid var(--rule); }
+.seg button:last-child { border-right: 0; }
+.seg button.on { background: var(--ink); color: var(--paper); }
+.hint { color: var(--ink-3); font-size: 12px; }
+kbd { font: 11px var(--mono); border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--sheet); }
+
+.checks { list-style: none; margin: 0; padding: 0; }
+.checks li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid var(--rule-2); font-size: 13px; }
+.checks li:first-child { border-top: 0; }
+.checks .d { color: var(--ink-3); font-size: 12px; }
+
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--rule); background: var(--sheet); cursor: pointer; text-decoration: none; color: var(--ink); }
+.btn:hover { border-color: var(--ink-3); }
+.btn.go { background: var(--moss); border-color: var(--moss); color: var(--sheet); font-weight: 600; }
+.btn.stop { color: var(--rust); border-color: var(--rust); background: transparent; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+textarea { width: 100%; min-height: 70px; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); resize: vertical; }
+label.tick { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--ink-2); margin: 10px 0; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.note { border-left: 3px solid var(--ochre); padding: 4px 0 4px 10px; margin: 10px 0; font-size: 13px; }
+.note.closed { border-color: var(--moss); color: var(--ink-3); }
+.note .by { color: var(--ink-3); font-size: 12px; }
+pre.body { white-space: pre-wrap; font: 13px/1.55 var(--mono); background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 14px; max-height: 60vh; overflow: auto; margin: 0; }
+.previews { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.previews img { width: 100%; border-radius: 8px; border: 1px solid var(--rule); display: block; }
+
+.boxer { position: relative; display: inline-block; user-select: none; touch-action: none; background: #f0ece5; }
+.boxer img { display: block; max-width: 100%; max-height: calc(100vh - 300px); pointer-events: none; }
+.boxer .r { position: absolute; border: 2px solid #c2361b; box-shadow: 0 0 0 9999px rgba(30, 25, 20, .28); cursor: move; }
+.boxer .h { position: absolute; width: 14px; height: 14px; background: #fff; border: 2px solid #c2361b; border-radius: 3px; margin: -7px 0 0 -7px; }
+.boxer .h.nw { left: 0; top: 0; cursor: nwse-resize; } .boxer .h.ne { left: 100%; top: 0; cursor: nesw-resize; }
+.boxer .h.sw { left: 0; top: 100%; cursor: nesw-resize; } .boxer .h.se { left: 100%; top: 100%; cursor: nwse-resize; }
+.coords { font: 12px var(--mono); color: var(--ink-2); }
+
+/* Final step: the full-size review, built from upstream's aligned layers. */
+.viewer { position: relative; border: 1px solid var(--rule); border-radius: 10px; overflow: auto; max-height: calc(100vh - 300px); min-height: 300px; display: grid; place-items: center; background: #f0ece5; user-select: none; touch-action: none; }
+.viewer.blue { background: #46698f; }
+.viewer.zoomed { place-items: start; cursor: grab; }
+.viewer.zoomed.panning { cursor: grabbing; }
+.viewer.wiping { cursor: ew-resize; }
+.vc { position: relative; line-height: 0; }
+.vc img { display: block; pointer-events: none; }
+.vc img.over { position: relative; }
+.viewer:not(.zoomed) .vc img.over { max-width: 100%; max-height: calc(100vh - 302px); }
+.vc img.under { position: absolute; inset: 0; width: 100%; height: 100%; visibility: hidden; }
+.viewer.wiping .vc img.under { visibility: visible; }
+.wline { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, .35); pointer-events: none; display: none; }
+.viewer.wiping .wline { display: block; }
+.sample { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; font: 12px var(--mono); color: var(--ink-2); margin: 8px 0 18px; min-height: 22px; }
+.sample .sw { display: inline-block; width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--rule); vertical-align: -3px; margin-right: 6px; }
+.sample b { font: 600 12px var(--sans); color: var(--ink-3); margin-right: 6px; }
+
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 8px; font-size: 13px; max-width: 80vw; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: 1; }
+.toast.err { background: var(--rust); color: #fff; }
+
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; height: auto; }
+  nav { border-right: 0; border-bottom: 1px solid var(--rule); }
+  main { padding: 20px 16px 60px; }
+  .panel { grid-template-columns: 1fr; }
+  header { flex-wrap: wrap; height: auto; padding: 10px 16px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="mark">fugart<small>missing artwork for fugleramme</small></div>
+    <div class="coverage" id="coverage"></div>
+    <div class="spacer"></div>
+    <a class="inbox zero" id="inbox" href="#feedback">No open notes</a>
+    <label class="who">Reviewer <input id="who" placeholder="your name" autocomplete="name"></label>
+  </header>
+  <nav id="nav"></nav>
+  <main id="main"><div class="empty">Pick a bird on the left.</div></main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+"use strict";
+const TOKEN = "__TOKEN__";
+const GATES = [
+  ["source", "Source", "plate, species, licence"],
+  ["scan", "Scan", "fetched master"],
+  ["cut", "Cut", "whole vignette"],
+  ["upstream", "Upstream", "filed in the checkout"],
+  ["box", "Bird box", "short of long tips"],
+  ["final", "Final", "on the frame"],
+  ["pr", "PR", "package"],
+];
+const QA = {
+  box: ["Crop box", "no drawing runs off the crop"],
+  lost: ["Lost drawing", "nothing drawn was cut away"],
+  colour: ["Colour", "saturation held to the scan"],
+  fringe: ["Fringe", "no dark soft edge"],
+  pockets: ["Pockets", "every enclosed pocket page-toned"],
+  floating: ["Floating parts", "one connected piece"],
+  unconnected: ["Unconnected ink", "dropped specks (warning only)"],
+};
+const $ = (s, el = document) => el.querySelector(s);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const file = (p, w) => p ? `/files/${p.split("/").map(encodeURIComponent).join("/")}${w ? `?w=${w}` : ""}` : "";
+const store = {
+  get(k, d) { try { return localStorage.getItem(k) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+const state = { overview: null, bird: null, gate: null, layer: "blue", full: false };
+
+function toast(msg, err) {
+  const t = $("#toast");
+  t.textContent = msg; t.className = "toast show" + (err ? " err" : "");
+  clearTimeout(toast.t); toast.t = setTimeout(() => (t.className = "toast"), err ? 6000 : 2600);
+}
+async function get(path) {
+  const r = await fetch(path);
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+async function post(path, body) {
+  const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json", "X-Fugau-Token": TOKEN }, body: JSON.stringify(body) });
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+function reviewer() {
+  const v = $("#who").value.trim();
+  if (!v) { $("#who").focus(); throw new Error("Enter your name (top right) first."); }
+  return v;
+}
+async function run(button, fn, done) {
+  button.disabled = true;
+  const label = button.textContent;
+  button.textContent = "Working…";
+  try { await fn(); toast(done); await refresh(); }
+  catch (e) { toast(e.message, true); button.disabled = false; button.textContent = label; }
+}
+
+// --- navigation -------------------------------------------------------------------------
+function renderNav() {
+  const o = state.overview;
+  const s = o.status;
+  $("#coverage").innerHTML = `<b>${s.covered}</b> of <b>${s.total}</b> birds covered${s.region ? ` in ${esc(s.region)}` : ""} · <b>${s.missing}</b> to go`;
+  const inbox = $("#inbox");
+  inbox.textContent = o.open_feedback ? `${o.open_feedback} open note${o.open_feedback > 1 ? "s" : ""}` : "No open notes";
+  inbox.classList.toggle("zero", !o.open_feedback);
+  const route = location.hash.slice(1).split("/");
+  $("#nav").innerHTML = o.batches.map((b) => `
+    <h2><span>${esc(b.id)}</span><a href="#batch/${encodeURIComponent(b.id)}">${b.ready ? "PR ready →" : "PR"}</a></h2>
+    ${b.members.map((m) => `
+      <a class="navbird ${route[0] === "bird" && route[1] === m.key ? "on" : ""}" href="#bird/${encodeURIComponent(m.key)}">
+        <div class="n"><span>${esc(m.common_name)}</span>${m.open_feedback ? `<span class="flag">${m.open_feedback} note${m.open_feedback > 1 ? "s" : ""}</span>` : ""}</div>
+        <div class="s">${esc(m.scientific_name)}</div>
+        <div class="dots">${GATES.map(([g]) => `<i class="${m.gates[g]}" title="${g}: ${m.gates[g]}"></i>`).join("")}</div>
+      </a>`).join("")}
+  `).join("") || `<p class="hint">No batches yet. Create one with <code>fugart batch create</code>.</p>`;
+}
+
+async function refresh() {
+  state.overview = await get("/api/overview");
+  renderNav();
+  await route();
+}
+
+async function route() {
+  const [kind, id, gate] = location.hash.slice(1).split("/").map(decodeURIComponent);
+  renderNav();
+  if (kind === "bird" && id) {
+    state.bird = await get(`/api/bird/${encodeURIComponent(id)}`);
+    const current = GATES.find(([g]) => state.bird.gates[g] === "current");
+    state.gate = gate || (current ? current[0] : "final");
+    return renderBird();
+  }
+  if (kind === "batch" && id) return renderBatch(id);
+  if (kind === "feedback") return renderFeedback();
+  $("#main").innerHTML = `<div class="empty">Pick a bird on the left.</div>`;
+}
+window.addEventListener("hashchange", () => route().catch((e) => toast(e.message, true)));
+
+// --- bird -------------------------------------------------------------------------------
+function renderBird() {
+  const b = state.bird;
+  const printed = b.source?.record?.historical_name;
+  $("#main").innerHTML = `
+    <div class="title">
+      <h1>${esc(b.common_name)}</h1>
+      <div class="sci">${esc(b.scientific_name)}${printed && printed !== b.scientific_name ? ` · printed as <i>${esc(printed)}</i>` : ""}</div>
+      <div class="meta">${esc(b.batch || "no batch")} · phase <b>${esc(b.phase || "covered")}</b>${b.blocked ? ` · <span class="pill bad">blocked: ${esc(b.blocked)}</span>` : ""}</div>
+    </div>
+    <div class="steps">${GATES.map(([g, name, sub]) => `
+      <button class="${b.gates[g]} ${state.gate === g ? "on" : ""}" data-gate="${g}">
+        <span class="k">${b.gates[g] === "done" ? "✓ " : ""}${name}</span><span class="v">${sub}</span>
+      </button>`).join("")}</div>
+    <div id="gate"></div>`;
+  for (const btn of document.querySelectorAll(".steps button")) {
+    btn.onclick = () => { location.hash = `bird/${encodeURIComponent(b.key)}/${btn.dataset.gate}`; };
+  }
+  const draw = { source: gateSource, scan: gateScan, cut: gateCut, upstream: gateUpstream, box: gateBox, final: gateFinal, pr: gatePr }[state.gate];
+  draw($("#gate"), b);
+}
+
+function feedbackCard(b, gate) {
+  const notes = b.feedback.filter((n) => n.gate === gate);
+  return `<div class="card">
+    <h3>Needs work?</h3>
+    ${notes.map((n) => `<div class="note ${n.resolution ? "closed" : ""}">${esc(n.notes)}
+      <div class="by">${esc(n.by)} · ${esc(n.at.slice(0, 16).replace("T", " "))}${n.resolution ? ` · resolved by ${esc(n.resolution.by)}: ${esc(n.resolution.notes)}` : ""}</div></div>`).join("")}
+    <textarea id="fb" placeholder="What should change? Be specific: where on the plate, what's wrong."></textarea>
+    <div class="row"><button class="btn stop" id="fbsend">Send back with this note</button></div>
+    <p class="hint" style="margin-top:8px">Notes queue for the agent: <code>fugart feedback</code>.</p>
+  </div>`;
+}
+function wireFeedback(b, gate) {
+  const send = $("#fbsend");
+  if (!send) return;
+  send.onclick = () => run(send, async () => {
+    const notes = $("#fb").value.trim();
+    if (!notes) throw new Error("Write what needs to change first.");
+    await post("/api/feedback", { species: b.key, gate, notes, reviewer: reviewer() });
+  }, "Note queued for the agent.");
+}
+
+function gateSource(el, b) {
+  const s = b.source;
+  if (!s) {
+    el.innerHTML = `<div class="panel"><div class="card"><h3>No source recorded</h3><p>An agent researches a plate and records it with <code>fugart source record</code>; it then shows here for you to approve.</p></div>${feedbackCard(b, "source")}</div>`;
+    return wireFeedback(b, "source");
+  }
+  const r = s.record;
+  const link = (u) => u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\//, ""))}</a>` : "—";
+  el.innerHTML = `<div class="panel">
+    <div>
+      ${b.scan ? `<div class="stage page"><a href="${file(b.scan, 2400)}" target="_blank"><img src="${file(b.scan, 1600)}" alt="Scan of the plate"></a></div>
+        <p class="hint" style="margin-top:8px">Click the plate for a larger view.</p>`
+      : `<div class="card"><p>The scan is fetched after approval. Look at the plate on the provider's page: ${link(r.plate_url)}</p></div>`}
+    </div>
+    <div>
+      <div class="card">
+        <h3>Source, revision ${s.revision}</h3>
+        <dl>
+          <dt>Work</dt><dd>${esc(r.work)} (${esc(r.work_date)})</dd>
+          <dt>Creators</dt><dd>${esc((r.creators || []).join(", "))}</dd>
+          <dt>Printed as</dt><dd><i>${esc(r.historical_name || "—")}</i></dd>
+          <dt>Provider</dt><dd>${esc(r.provider)}</dd>
+          <dt>Plate</dt><dd>${link(r.plate_url)}</dd>
+          <dt>Licence</dt><dd>${esc(r.licence)}</dd>
+          <dt>Evidence</dt><dd>${esc(r.licence_evidence)}</dd>
+          <dt>Taxonomy</dt><dd>${esc(r.taxonomy_notes || "—")}</dd>
+          <dt>Notes</dt><dd>${esc(r.notes || "—")}</dd>
+        </dl>
+      </div>
+      ${s.approval ? `<div class="card"><h3><span class="pill ok">Approved</span></h3><p>${esc(s.approval.reviewer)}: ${esc(s.approval.notes)}</p><p class="hint">${esc(s.approval.created_at.slice(0, 16).replace("T", " "))}</p></div>`
+      : `<div class="card"><h3>Your decision</h3>
+          <p>Check the plate is the right species, the scan is the original (not AI-restored), and the licence fits CC BY-SA.</p>
+          <textarea id="notes" placeholder="What you checked"></textarea>
+          <label class="tick"><input type="checkbox" id="ok"> I checked the plate, the species and the licence.</label>
+          <button class="btn go" id="approve">Approve source</button></div>`}
+      ${feedbackCard(b, "source")}
+    </div></div>`;
+  wireFeedback(b, "source");
+  const approve = $("#approve");
+  if (approve) approve.onclick = () => run(approve, () => post("/api/source/approve", {
+    species: b.key, revision: s.revision, reviewer: reviewer(), notes: $("#notes").value, confirm: $("#ok").checked,
+  }), "Source approved.");
+}
+
+function gateScan(el, b) {
+  el.innerHTML = `<div class="panel"><div>${b.scan
+    ? `<div class="stage page"><img src="${file(b.scan, 1600)}" alt="Fetched scan"></div>`
+    : `<div class="card"><h3>Not fetched yet</h3><p>Run <code>fugart fetch ${esc(b.key)}</code>. It downloads the master the approved source names and checks it decodes.</p></div>`}
+    </div><div>${b.scan ? `<div class="card"><h3><span class="pill ok">Fetched</span></h3><p class="hint">${esc(b.scan)}</p></div>` : ""}${feedbackCard(b, "scan")}</div></div>`;
+  wireFeedback(b, "scan");
+}
+
+function gateCut(el, b) {
+  const c = b.cut;
+  if (!c) {
+    el.innerHTML = `<div class="panel"><div class="card"><h3>No cut yet</h3><p>The agent cuts with <code>tools/recut.sh</code> following CUTTING.md, then files it.</p></div>${feedbackCard(b, "cut")}</div>`;
+    return wireFeedback(b, "cut");
+  }
+  const f = c.files;
+  const layers = [
+    ["blue", "On blue", f["cut.png"]], ["page", "On paper", f["cut.png"]], ["scan", "Scan", f["crop.png"]],
+    ["lost", "Lost drawing", f["lost.jpg"]], ["final", "Final", f["final.png"]],
+  ].filter((l) => l[2]);
+  if (!layers.find((l) => l[0] === state.layer)) state.layer = layers[0]?.[0];
+  const qa = c.qa;
+  el.innerHTML = `<div class="panel">
+    <div>
+      <div class="tools">
+        <div class="seg" id="layers">${layers.map(([k, name]) => `<button data-k="${k}" class="${state.layer === k ? "on" : ""}">${name}</button>`).join("")}</div>
+        <div class="seg"><button id="fit" class="${state.full ? "" : "on"}">Fit</button><button id="full" class="${state.full ? "on" : ""}">Full size</button></div>
+        <span class="hint">Hold <kbd>Space</kbd> to flip to the scan.</span>
+      </div>
+      <div class="stage ${state.full ? "full" : ""}" id="stage"><img id="layer" alt="Cut"></div>
+    </div>
+    <div>
+      <div class="card"><h3>Automatic checks ${qa ? (qa.ok ? `<span class="pill ok">pass</span>` : `<span class="pill bad">fail</span>`) : `<span class="pill">not run</span>`}</h3>
+        ${qa ? `<ul class="checks">${Object.entries(QA).filter(([k]) => qa[k]).map(([k, [name, d]]) => {
+          const v = qa[k];
+          const pill = !v.ok ? `<span class="pill bad">fail</span>` : v.warn ? `<span class="pill warn">${v.px} px</span>` : `<span class="pill ok">ok</span>`;
+          return `<li><div>${name}<div class="d">${d}</div></div>${pill}</li>`;
+        }).join("")}</ul>` : `<p>qa.py has not run on this cut.</p>`}
+        <p class="hint" style="margin-top:10px">The checks are not a review: look at the whole plate at full size.</p>
+      </div>
+      ${c.disclosure ? `<div class="card"><h3>Retouching to disclose</h3><p style="white-space:pre-wrap">${esc(c.disclosure)}</p></div>` : ""}
+      <div class="card"><h3>Revision r${String(c.revision).padStart(3, "0")} ${c.intact ? `<span class="pill ok">intact</span>` : `<span class="pill bad">changed</span>`}</h3>
+        <p>Happy with the cut? It moves on when the agent files it upstream. Otherwise send it back below.</p></div>
+      ${feedbackCard(b, "cut")}
+    </div></div>`;
+  wireFeedback(b, "cut");
+  const src = (k) => layers.find((l) => l[0] === k)?.[2];
+  const show = (k) => {
+    const stage = $("#stage");
+    if (!stage) return;
+    stage.className = `stage ${state.full ? "full" : ""} ${k === "blue" ? "blue" : k === "page" || k === "final" ? "page" : ""}`;
+    $("#layer").src = file(src(k), state.full ? 2400 : 1600);
+  };
+  show(state.layer);
+  for (const btn of document.querySelectorAll("#layers button")) btn.onclick = () => { state.layer = btn.dataset.k; renderBird(); };
+  $("#fit").onclick = () => { state.full = false; renderBird(); };
+  $("#full").onclick = () => { state.full = true; renderBird(); };
+  flip.on = () => src("scan") && show("scan");
+  flip.off = () => show(state.layer);
+}
+const flip = { on: null, off: null, held: false };
+document.addEventListener("keydown", (e) => {
+  if (/INPUT|TEXTAREA/.test(document.activeElement.tagName) || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (state.gate === "final" && view.keys) {
+    if (e.code === "Space") { e.preventDefault(); if (!view.flipped) view.flip(true); }
+    else if (view.keys(e.key.toLowerCase())) e.preventDefault();
+    return;
+  }
+  if (e.code !== "Space" || state.gate !== "cut") return;
+  e.preventDefault();
+  if (!flip.held && flip.on) { flip.held = true; flip.on(); }
+});
+document.addEventListener("keyup", (e) => {
+  if (e.code === "Space" && view.flipped && view.flip) view.flip(false);
+  if (e.code === "Space" && flip.held) { flip.held = false; flip.off && flip.off(); }
+});
+
+function gateUpstream(el, b) {
+  el.innerHTML = `<div class="panel"><div>${b.plate
+    ? `<div class="stage page"><img src="${file("upstream/" + b.plate, 1600)}" alt="Filed plate"></div>`
+    : `<div class="card"><h3>Not filed yet</h3><p>The agent files the reviewed cut with <code>fugart import</code> (or <code>fugart replace</code> for a recut). It writes the plate and manifest entry into your upstream checkout, uncommitted.</p></div>`}
+    </div><div>${b.plate ? `<div class="card"><h3><span class="pill ok">Filed</span></h3><p class="hint">${esc(b.plate)}</p></div>` : ""}${feedbackCard(b, "upstream")}</div></div>`;
+  wireFeedback(b, "upstream");
+}
+
+function gateBox(el, b) {
+  if (!b.plate) {
+    el.innerHTML = `<div class="panel"><div class="card"><h3>File the plate first</h3><p>The bird box is drawn on the filed plate.</p></div></div>`;
+    return;
+  }
+  const saved = b.box?.box || [0.2, 0.3, 0.8, 0.7];
+  const box = [...saved];
+  el.innerHTML = `<div class="panel">
+    <div>
+      <div class="tools"><span class="hint">Drag the box or its corners. Drag on empty paper to draw a new one.</span></div>
+      <div class="boxer" id="boxer"><img id="plate" src="${file("upstream/" + b.plate, 1600)}" alt="Plate"><div class="r" id="r"><i class="h nw"></i><i class="h ne"></i><i class="h sw"></i><i class="h se"></i></div></div>
+      <div class="coords" id="coords"></div>
+    </div>
+    <div>
+      <div class="card"><h3>Bird box ${b.box ? `<span class="pill ${/agent/.test(b.box.method) ? "warn" : "ok"}">${esc(/agent/.test(b.box.method) ? "agent proposal" : "saved")}</span>` : `<span class="pill">none</span>`}</h3>
+        <p>The frame sizes the bird by this box, so it should hold <b>one</b> bird. Stop short of long tails, bills, legs and outstretched wings, or the bird renders too small.</p>
+        ${b.box?.notes ? `<p class="hint">${esc(b.box.method)}: ${esc(b.box.notes)}</p>` : ""}
+        ${b.box && !b.box.can_edit ? `<p class="hint">This box can't be changed at this phase.</p>` : `
+        <textarea id="bnotes" placeholder="Which bird, and what you left out (optional)"></textarea>
+        <div class="row"><button class="btn go" id="savebox">Save box</button><button class="btn" id="resetbox">Reset</button></div>`}
+      </div>
+      ${feedbackCard(b, "box")}
+    </div></div>`;
+  wireFeedback(b, "box");
+  const boxer = $("#boxer"), r = $("#r");
+  const paint = () => {
+    r.style.left = `${box[0] * 100}%`; r.style.top = `${box[1] * 100}%`;
+    r.style.width = `${(box[2] - box[0]) * 100}%`; r.style.height = `${(box[3] - box[1]) * 100}%`;
+    $("#coords").textContent = `[${box.map((v) => v.toFixed(3)).join(", ")}]`;
+  };
+  paint();
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  let drag = null;
+  boxer.addEventListener("pointerdown", (e) => {
+    const rect = boxer.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width, y = (e.clientY - rect.top) / rect.height;
+    const h = e.target.classList.contains("h") ? [...e.target.classList].find((c) => c.length === 2) : null;
+    drag = { rect, x, y, start: [...box], mode: h || (e.target === r ? "move" : "draw") };
+    if (drag.mode === "draw") { box.splice(0, 4, x, y, x, y); drag.mode = "se"; drag.start = [...box]; }
+    boxer.setPointerCapture(e.pointerId);
+  });
+  boxer.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    const dx = (e.clientX - drag.rect.left) / drag.rect.width - drag.x;
+    const dy = (e.clientY - drag.rect.top) / drag.rect.height - drag.y;
+    const s = drag.start;
+    if (drag.mode === "move") {
+      const w = s[2] - s[0], hgt = s[3] - s[1];
+      const nx = Math.min(1 - w, Math.max(0, s[0] + dx)), ny = Math.min(1 - hgt, Math.max(0, s[1] + dy));
+      box.splice(0, 4, nx, ny, nx + w, ny + hgt);
+    } else {
+      if (drag.mode.includes("w")) box[0] = clamp(s[0] + dx);
+      if (drag.mode.includes("e")) box[2] = clamp(s[2] + dx);
+      if (drag.mode.includes("n")) box[1] = clamp(s[1] + dy);
+      if (drag.mode.includes("s")) box[3] = clamp(s[3] + dy);
+    }
+    paint();
+  });
+  boxer.addEventListener("pointerup", () => {
+    if (!drag) return;
+    drag = null;
+    const [x0, y0, x1, y1] = box;
+    box.splice(0, 4, Math.min(x0, x1), Math.min(y0, y1), Math.max(x0, x1), Math.max(y0, y1));
+    paint();
+  });
+  const save = $("#savebox");
+  if (save) {
+    save.onclick = () => run(save, () => {
+      if (box[2] - box[0] < 0.02 || box[3] - box[1] < 0.02) throw new Error("That box is too small.");
+      return post("/api/box", { species: b.key, box: box.map((v) => +v.toFixed(4)), notes: $("#bnotes").value, reviewer: reviewer() });
+    }, "Box saved. Rebuild the final review.");
+    $("#resetbox").onclick = () => { box.splice(0, 4, ...saved); paint(); };
+  }
+}
+
+// The review's layers are one size and line up pixel for pixel, so a wipe or a colour
+// sample compares the same spot of the plate on both sides.
+const VIEW = [
+  ["cutout", "Cut-out", "cut.png", "blue"], ["plate", "On paper", "plate.png", ""],
+  ["scan", "Scan", "scan.png", ""], ["flags", "Suspect pixels", "flags.jpg", ""],
+];
+const ZOOM = [["fit", "Fit"], ["1", "1:1"], ["2", "2×"]];
+const view = { layer: "cutout", zoom: "fit", wipe: false, at: 0.5, flipped: false };
+
+function viewerHtml(rv) {
+  const layers = VIEW.filter((l) => rv.files[l[2]]);
+  return `
+    <div class="tools">
+      <div class="seg" id="vlayers">${layers.map(([k, name], i) => `<button data-k="${k}" title="Key ${i + 1}">${name}</button>`).join("")}</div>
+      <div class="seg" id="vzoom">${ZOOM.map(([k, name]) => `<button data-z="${k}">${name}</button>`).join("")}</div>
+      <div class="seg"><button id="vwipe" title="Key W">Wipe against scan</button></div>
+    </div>
+    <p class="hint" id="vhint" style="margin:-2px 0 8px"></p>
+    <div class="viewer" id="viewer"><div class="vc" id="vc">
+      <img class="under" id="vunder" src="${file(rv.files["scan.png"])}" alt="">
+      <img class="over" id="vover" alt="Plate">
+      <div class="wline" id="wline"></div>
+    </div></div>
+    <div class="sample" id="sample"><span class="hint">Point at the plate to compare its colour with the scan.</span></div>`;
+}
+
+function mountViewer(rv) {
+  view.flipped = false;
+  const viewer = $("#viewer"), over = $("#vover"), src = (k) => rv.files[VIEW.find((l) => l[0] === k)[2]];
+  if (!VIEW.some((l) => l[0] === view.layer && rv.files[l[2]])) view.layer = "cutout";
+  const name = (k) => VIEW.find((l) => l[0] === k)[1];
+  const paint = () => {
+    const layer = view.flipped ? "scan" : view.layer;
+    const wiping = view.wipe && !view.flipped && layer !== "scan";
+    if (over.dataset.src !== src(layer)) { over.dataset.src = src(layer); over.src = file(src(layer)); }
+    const z = view.zoom === "fit" ? null : +view.zoom;
+    over.style.width = z && over.naturalWidth ? `${over.naturalWidth * z}px` : "";
+    over.style.clipPath = wiping ? `inset(0 0 0 ${view.at * 100}%)` : "";
+    $("#vunder").style.clipPath = `inset(0 ${(1 - view.at) * 100}% 0 0)`;
+    $("#wline").style.left = `${view.at * 100}%`;
+    viewer.className = `viewer ${VIEW.find((l) => l[0] === layer)[3]} ${z ? "zoomed" : ""} ${wiping ? "wiping" : ""}`;
+    for (const btn of document.querySelectorAll("#vlayers button")) btn.classList.toggle("on", btn.dataset.k === view.layer);
+    for (const btn of document.querySelectorAll("#vzoom button")) btn.classList.toggle("on", btn.dataset.z === view.zoom);
+    $("#vwipe").classList.toggle("on", view.wipe);
+    $("#vhint").innerHTML = view.flipped ? "Showing the scan while <kbd>Space</kbd> is held."
+      : wiping ? `Scan on the left, ${name(layer).toLowerCase()} on the right. Drag across the plate to move the line.`
+      : `Keys <kbd>1</kbd>–<kbd>4</kbd> pick a layer, <kbd>W</kbd> wipes against the scan, hold <kbd>Space</kbd> to flip to the scan.${z ? " Drag to move around." : ""}`;
+  };
+  over.onload = paint;
+  for (const btn of document.querySelectorAll("#vlayers button")) btn.onclick = () => { view.layer = btn.dataset.k; paint(); };
+  // Zooming keeps the spot in the middle of the view in the middle.
+  for (const btn of document.querySelectorAll("#vzoom button")) btn.onclick = () => {
+    const cx = (viewer.scrollLeft + viewer.clientWidth / 2) / viewer.scrollWidth;
+    const cy = (viewer.scrollTop + viewer.clientHeight / 2) / viewer.scrollHeight;
+    view.zoom = btn.dataset.z; paint();
+    viewer.scrollLeft = cx * viewer.scrollWidth - viewer.clientWidth / 2;
+    viewer.scrollTop = cy * viewer.scrollHeight - viewer.clientHeight / 2;
+  };
+  $("#vwipe").onclick = () => { view.wipe = !view.wipe; paint(); };
+  view.keys = (key) => {
+    const i = "1234".indexOf(key);
+    const layers = VIEW.filter((l) => rv.files[l[2]]);
+    if (i >= 0 && layers[i]) { view.layer = layers[i][0]; paint(); return true; }
+    if (key === "w") { view.wipe = !view.wipe; paint(); return true; }
+    return false;
+  };
+  view.flip = (on) => { view.flipped = on; paint(); };
+
+  // Drag: moves the wipe line while wiping, otherwise pans a zoomed plate.
+  let drag = null;
+  const wipeTo = (e) => {
+    const r = $("#vc").getBoundingClientRect();
+    view.at = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); paint();
+  };
+  viewer.onpointerdown = (e) => {
+    if (viewer.classList.contains("wiping")) { drag = "wipe"; wipeTo(e); }
+    else if (viewer.classList.contains("zoomed")) { drag = { x: e.clientX, y: e.clientY, l: viewer.scrollLeft, t: viewer.scrollTop }; viewer.classList.add("panning"); }
+    else return;
+    viewer.setPointerCapture(e.pointerId);
+  };
+  viewer.onpointerup = () => { drag = null; viewer.classList.remove("panning"); };
+
+  // Colour sampling reads the scan and the shipped cut-out at the same pixel.
+  const pixels = {};
+  for (const k of ["scan.png", "cut.png"]) {
+    if (!rv.files[k]) continue;
+    const im = new Image();
+    im.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = im.naturalWidth; c.height = im.naturalHeight;
+      const ctx = c.getContext("2d", { willReadFrequently: true });
+      ctx.drawImage(im, 0, 0);
+      pixels[k] = ctx;
+    };
+    im.src = file(rv.files[k]);
+  }
+  const mean = (ctx, x, y) => {
+    const r = 2, d = ctx.getImageData(Math.max(0, x - r), Math.max(0, y - r), 2 * r + 1, 2 * r + 1).data;
+    const sum = [0, 0, 0, 0];
+    for (let i = 0; i < d.length; i += 4) for (let j = 0; j < 4; j++) sum[j] += d[i + j];
+    return sum.map((v) => Math.round(v / (d.length / 4)));
+  };
+  const sat = ([r, g, b]) => (Math.max(r, g, b) - Math.min(r, g, b)) / Math.max(r, g, b, 1);
+  const swatch = (label, p) => `<span><b>${label}</b><i class="sw" style="background:rgb(${p[0]},${p[1]},${p[2]})"></i>${p.slice(0, 3).join(" ")} · sat ${sat(p).toFixed(2)}</span>`;
+  viewer.onpointermove = (e) => {
+    if (drag === "wipe") wipeTo(e);
+    else if (drag) { viewer.scrollLeft = drag.l - (e.clientX - drag.x); viewer.scrollTop = drag.t - (e.clientY - drag.y); }
+    const scan = pixels["scan.png"], cut = pixels["cut.png"];
+    if (!scan || !cut) return;
+    const r = $("#vc").getBoundingClientRect();
+    const x = Math.floor((e.clientX - r.left) / r.width * scan.canvas.width);
+    const y = Math.floor((e.clientY - r.top) / r.height * scan.canvas.height);
+    if (x < 0 || y < 0 || x >= scan.canvas.width || y >= scan.canvas.height) return;
+    const s = mean(scan, x, y), p = mean(cut, x, y);
+    $("#sample").innerHTML = swatch("Scan", s) + (p[3] < 250
+      ? `<span class="hint">Plate: off the bird here (halo or cut away)</span>`
+      : swatch("Plate", p) + `<span class="hint">${x}, ${y}</span>`);
+  };
+  paint();
+}
+
+function colourCard(c) {
+  const t = c?.tone, q = c?.qa?.colour;
+  if (!t && !q) return "";
+  const lifted = t && t.factor < 1;
+  return `<div class="card"><h3>Colour ${q ? (q.ok ? `<span class="pill ok">held to the scan</span>` : `<span class="pill bad">off the scan</span>`) : ""}</h3>
+    ${t ? `<p>${lifted
+      ? `Upstream's finish step deepened the scan, which lifted its saturation from ${t.scan.toFixed(3)} to ${t.finished.toFixed(3)}. <code>tone.py</code> scaled colour back by ×${t.factor.toFixed(2)} to match the scan; the deepened darks stay.`
+      : `The finish step didn't lift colour above the scan's (${t.scan.toFixed(3)}), so <code>tone.py</code> changed nothing.`}</p>` : ""}
+    ${q ? `<p>Plate against scan saturation: <b>${q.saturation_ratio.toFixed(2)}</b> (the check fails above ${c.qa.limits?.saturation_ratio ?? 1.08}).</p>` : ""}
+    <p class="hint">Wipe against the scan, and point at a spot to read both colours.</p></div>`;
+}
+
+function gateFinal(el, b) {
+  const rv = b.review;
+  const canBuild = ["boxed", "approved"].includes(b.phase);
+  const layered = rv && rv.files["scan.png"] && rv.files["cut.png"];
+  el.innerHTML = `<div class="panel">
+    <div>${layered ? viewerHtml(rv) : ""}${rv && rv.files["preview/panel.png"] ? `
+      <div class="previews">
+        <figure style="margin:0"><img src="${file(rv.files["preview/panel.png"])}" alt="On the e-ink panel"><figcaption class="hint">On the e-ink panel</figcaption></figure>
+        <figure style="margin:0"><img src="${file(rv.files["preview/web.png"])}" alt="On the web page"><figcaption class="hint">On the web page</figcaption></figure>
+      </div>` : `<div class="card"><h3>No review built</h3><p>${canBuild ? "Build it to see the plate on the frame." : "Box the bird first."}</p></div>`}
+    </div>
+    <div>
+      <div class="card"><h3>Final review ${rv ? (rv.approved ? `<span class="pill ok">approved</span>` : rv.valid ? `<span class="pill warn">awaiting you</span>` : `<span class="pill bad">stale, rebuild</span>`) : ""}</h3>
+        ${rv && rv.files["index.html"] ? `<p class="hint">Upstream's own review page adds a live cut diff: <a href="${file(rv.files["index.html"])}" target="_blank">open it ↗</a></p>` : ""}
+        ${canBuild ? `<p><button class="btn" id="build">${rv ? "Rebuild review" : "Build review"}</button></p>` : ""}
+        ${rv && rv.approved ? `<p>${esc(rv.approval.reviewer)}: ${esc(rv.approval.notes)}</p>` : ""}
+        ${rv && rv.valid && !rv.approved ? `
+          <p>Look at the whole plate at full size, flip against the scan, and check the bird box and how it sits on the frame.</p>
+          <textarea id="notes" placeholder="What you checked"></textarea>
+          <label class="tick"><input type="checkbox" id="ok"> I looked at every part of this plate at full size.</label>
+          <button class="btn go" id="approve">Approve for the PR</button>` : ""}
+      </div>
+      ${colourCard(b.cut)}
+      ${b.cut?.disclosure ? `<div class="card"><h3>Retouching to disclose</h3><p style="white-space:pre-wrap">${esc(b.cut.disclosure)}</p></div>` : ""}
+      ${feedbackCard(b, "final")}
+    </div></div>`;
+  wireFeedback(b, "final");
+  view.keys = view.flip = null;
+  if (layered) mountViewer(rv);
+  const build = $("#build");
+  if (build) build.onclick = () => run(build, () => post("/api/review/build", { species: b.key }), "Review built.");
+  const approve = $("#approve");
+  if (approve) approve.onclick = () => run(approve, () => post("/api/review/approve", {
+    species: b.key, review: rv.id, reviewer: reviewer(), notes: $("#notes").value, confirm: $("#ok").checked,
+  }), "Approved.");
+}
+
+function gatePr(el, b) {
+  el.innerHTML = `<div class="card"><h3>Pull request</h3><p>The PR is made per batch.</p>
+    ${b.batch ? `<a class="btn" href="#batch/${encodeURIComponent(b.batch)}">Open ${esc(b.batch)} →</a>` : ""}</div>`;
+}
+
+// --- batch / PR -------------------------------------------------------------------------
+async function renderBatch(id) {
+  const pr = await get(`/api/pr/${encodeURIComponent(id)}`);
+  $("#main").innerHTML = `
+    <div class="title"><h1>${esc(id)}</h1><div class="meta">${pr.ready ? `<span class="pill ok">every bird approved</span>` : `<span class="pill warn">waiting on approvals</span>`}</div></div>
+    <div class="panel" style="margin-top:22px">
+      <div>
+        <div class="card"><h3>PR description ${pr.body_path ? `<span class="hint">${esc(pr.body_path)}</span>` : ""}</h3>
+          ${pr.body ? `<pre class="body">${esc(pr.body)}</pre><div class="row"><button class="btn" id="copy">Copy</button></div>` : `<p>No draft yet. The agent writes it to <code>work/research/${esc(id)}/pr-body.md</code>.</p>`}
+        </div>
+      </div>
+      <div>
+        <div class="card"><h3>Birds</h3><ul class="checks">${pr.birds.map((m) => `<li><a href="#bird/${encodeURIComponent(m.key)}/final">${esc(m.key)}</a><span class="pill ${m.phase === "approved" ? "ok" : "warn"}">${esc(m.phase)}</span></li>`).join("")}</ul></div>
+        <div class="card"><h3>Upstream changes</h3><pre class="body" style="max-height:220px">${esc(pr.diff || "(no tracked changes)")}${pr.untracked ? "\n\nNew files:\n" + esc(pr.untracked) : ""}</pre></div>
+        <div class="card"><h3>Opening it</h3><p>Nothing is posted from here. When every bird is approved, tell the agent to branch, commit and open the PR.</p></div>
+      </div>
+    </div>`;
+  const copy = $("#copy");
+  if (copy) copy.onclick = async () => { await navigator.clipboard.writeText(pr.body); toast("Copied."); };
+}
+
+async function renderFeedback() {
+  const notes = await get("/api/feedback");
+  $("#main").innerHTML = `<div class="title"><h1>Open notes</h1><div class="meta">Waiting for the agent. It lists them with <code>fugart feedback</code> and resolves each with what it changed.</div></div>
+    <div style="margin-top:22px;max-width:760px">${notes.map((n) => `<div class="card">
+      <h3><a href="#bird/${encodeURIComponent(n.species)}/${n.gate}">${esc(n.species)}</a> · ${esc(n.gate)}</h3>
+      <p>${esc(n.notes)}</p><p class="hint">${esc(n.by)} · ${esc(n.at.slice(0, 16).replace("T", " "))} · <code>${esc(n.id)}</code></p></div>`).join("") || `<p class="hint">Nothing open.</p>`}</div>`;
+}
+
+// --- start ------------------------------------------------------------------------------
+$("#who").value = store.get("fugart.reviewer", "");
+$("#who").addEventListener("change", () => store.set("fugart.reviewer", $("#who").value.trim()));
+refresh().catch((e) => toast(e.message, true));
+</script>
+</body>
+</html>

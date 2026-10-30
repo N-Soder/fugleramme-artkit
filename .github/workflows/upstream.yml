@@ -1,0 +1,21 @@
+# Checks this tool against Fugleramme's current main, so upstream drift shows up early.
+name: upstream compatibility
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: arnegiacomo/fugleramme
+          path: upstream
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - run: mv upstream "$RUNNER_TEMP/fugleramme"
+      - run: FUGART_TEST_UPSTREAM="$RUNNER_TEMP/fugleramme" uv run pytest -q
