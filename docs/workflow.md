@@ -191,7 +191,10 @@ Cutting, finishing and encoding are upstream's: `tools/platereview/plate.py`,
 `finish.py` and `tools/add_bird.py --dry-run`. This CLI only checks the inputs,
 runs them and records what they wrote. Write a spec as upstream's
 `tools/platereview/README.md` describes, with `scan` set to the absolute path
-of the bird's downloaded scan (`fugart source show` prints its path under the workspace):
+of the bird's downloaded scan (`fugart source show` prints its path under the workspace).
+`plate.py` decides paper by one threshold and eats pale drawing, so treat this as a first
+cut: the plate that ships is recut with `tools/recut.sh` and filed with `fugart replace`
+(see [CUTTING.md](../CUTTING.md)).
 
 ```json
 {

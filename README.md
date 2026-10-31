@@ -12,7 +12,8 @@ checkout, ready for a PR.
 
 It keeps the slow, careful parts careful: every source and licence is recorded with its
 evidence, a person approves each source and each finished plate, and every cut is kept as an
-immutable revision. Upstream's own tools do the cutting, encoding and rendering.
+immutable revision. Upstream's own tools crop, finish, encode and render. The cut itself is
+`tools/vignette.py`, which keeps the whole drawing and retones the page around it.
 
 > An independent companion tool. It is not part of, or endorsed by, the Fugleramme project.
 > Follow upstream's [contributing guide](https://github.com/arnegiacomo/fugleramme/blob/main/CONTRIBUTING.md)
@@ -37,7 +38,7 @@ source record ─▶ ✋ source approve ─▶ fetch ─▶ cutout ─▶ import
 | `source record` | Records a plate, its licence and taxonomy evidence. Evidence files are hashed and kept. |
 | `source approve` ✋ | A person confirms the plate, the species and the licence. |
 | `fetch` | Downloads the scan from an approved provider and verifies it. |
-| `cutout` | Cuts the bird out with upstream's tools. Each run is a new, read-only revision. |
+| `cutout` | A first cut with upstream's `plate.py`; `tools/recut.sh` and `replace` recut it with the vignette cutter. Each run is a new, read-only revision. |
 | `import` | Files the plate in your checkout with upstream's importer. Nothing is committed. |
 | `box` | Sets the bird box in upstream's editor. |
 | `review build` / `approve` ✋ | Builds upstream's comparison and e-ink previews; a person signs off. |

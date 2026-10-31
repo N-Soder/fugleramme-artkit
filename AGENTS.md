@@ -46,8 +46,9 @@ the command you are about to run.
 ## Development
 
 - Python 3.12+, `uv`, standard library plus Pillow. No new dependencies without a reason.
-- Upstream does the cutting, encoding and rendering through its own tools; this project
-  orchestrates and records. Do not reimplement upstream's taxonomy or image tools.
+- Upstream crops, finishes, encodes and renders through its own tools; this project cuts
+  with `tools/vignette.py`, orchestrates and records. Do not reimplement upstream's taxonomy
+  or image tools.
 - Validation, all of which must pass before a commit:
   `uv run pytest -q`, `uv run ruff check`, `uv run ruff format --check`, `uv build`.
   With a real checkout: `FUGART_TEST_UPSTREAM=/absolute/path/to/fugleramme uv run pytest -q`.

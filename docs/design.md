@@ -6,8 +6,8 @@ A local, single-operator production line around a separate Fugleramme checkout.
 It takes a bird that upstream has no artwork for to a reviewed plate in that
 checkout: dated backlog, source research with retained evidence, an explicit human
 source approval, scan acquisition, native cuts, provisional import, boxing and an
-explicit human quality approval. Upstream's own tools do the cutting, encoding and
-rendering. Batch validation and PR preparation are planned, not built. Hardware and
+explicit human quality approval. Upstream's own tools crop, finish, encode and render;
+`tools/vignette.py` does the cut. Batch validation and PR preparation are planned, not built. Hardware and
 deployment are upstream's concern.
 
 ## Upstream contracts
