@@ -186,3 +186,17 @@ def test_drawing_painted_over_in_page_tone_fails(art_python, tmp_path):
     qa = verdict(tmp_path)
     assert qa["lost"]["ok"] and not qa["erased"]["ok"]
     assert (tmp_path / "erased.jpg").exists()
+
+
+def test_faded_foxing_is_reported_not_failed(art_python, tmp_path):
+    # A rust spot inside the outline with no path to ink may fade with the page (#348).
+    crop = plate(tmp_path, leaf=False)
+    ImageDraw.Draw(crop).ellipse([440, 200, 470, 230], fill=(220, 205, 180))
+    crop.save(tmp_path / "crop.png")
+    cut(tmp_path, crop, [BIRD, [430, 190, 480, 240]])
+    painted = Image.open(tmp_path / "cut.png")
+    ImageDraw.Draw(painted).ellipse([436, 196, 474, 234], fill=PAGE + (255,))
+    painted.save(tmp_path / "cut.png")
+    result = art_python(tmp_path)
+    erased = verdict(tmp_path)["erased"]
+    assert erased["ok"] and erased["foxing"], result.stdout

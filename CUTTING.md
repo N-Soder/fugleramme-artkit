@@ -29,7 +29,7 @@ rest are gates a person passes. Nothing goes upstream with a failing check or a 
 | 11. Box the bird short of long tips | Upstream `bird_box.py`; checked at the operator's final sign-off |
 | 12. One to three birds per PR | `fugart batch create` for the batch; PR prep |
 | 13. Painted over is lost too | `qa.py` *erased* and `erased.jpg` |
-| 14. Weak tone touching ink is drawing | `protect` by hand; agent's close-ups |
+| 14. Weak tone touching ink is drawing | `vignette.py` `reach`; `qa.py` *erased* foxing split |
 | 15. Pale washes inside a body are not paper | `protect` by hand; `qa.py` *erased* |
 | 16. Protect polygons sit inside an open edge | Spec review; `qa.py` *erased*; review page outline |
 | 17. A wider outline brings back foxing | Old against new cut before showing; `qa.py` *lost* specks |
@@ -57,12 +57,13 @@ back in a quieter form, past `qa.py`:
 
 | Plate | Maintainer's comment | What the cut did | Fix |
 | --- | --- | --- | --- |
-| Grey Shrike-thrush | White plumage and perch ends removed by the background remover | Faded the white chin by the bill and the dry branch end to page tone; also whitened the streaked breast of the lower bird | `protect` over chin, breast and branch end |
-| Golden Whistler | White plumage, flowers and perch ends removed | Faded both chins, the lower wattle blossom and two dry twig ends to page tone | `protect` over each |
+| Grey Shrike-thrush | White plumage and perch ends removed by the background remover | Faded the white chin by the bill and the dry branch end to page tone; also whitened the streaked breast of the lower bird | Cutter keeps faint tone joined to ink; `protect` over the throats and breast |
+| Golden Whistler | White plumage, flowers and perch ends removed | Faded both chins, the lower wattle blossom and two dry twig ends to page tone | Same cutter change; `protect` over the white chin and the pale bud; two foxing specks dropped |
 
 The cutter never made these transparent. It painted them in page colour and kept them
 opaque, so the *lost* check, which only reads transparency, passed them. Rule 13 and the
-*erased* check close that gap.
+*erased* check close that gap. The recut was approved and merged on 2026-10-31, and both
+merged plates pass *erased*.
 
 His summary on #261: recut all five, less aggressively. And: LLM cuts work best on birds drawn on
 white paper, where there is an outline to follow.
@@ -136,15 +137,20 @@ white paper, where there is an outline to follow.
     tone" as page flattens them, whether that is the background estimate or the matte: a chin
     under the bill (the gape lets the page in), a white breast, a dry twig or perch end.
     `qa.py` *erased* compares tone against the scan and fails any drawing the cut kept at
-    under half its contrast; `erased.jpg` puts each spot's scan beside its cut and the final at shipped size. Fix each with
-    `protect` (rule 16), then recut. A flag that is foxing gets a `drop` polygon, which the PR
-    discloses. Never raise the limits to pass.
+    under half its contrast. A faded spot with no path to ink is reported as *foxing* and
+    does not fail. `erased.jpg` shows every spot, foxing included, as scan, cut and final
+    at shipped size: look at each one. A dry-brush end can be too faint to count as ink and
+    land under *foxing*, and fine bristles at the bill can be too thin to flag at all, so
+    the full-size look in rule 6 still stands. Fix each loss with `protect` (rule 16) or a
+    larger `reach` (rule 14), then recut. Foxing that should go gets a `drop` polygon,
+    which the PR discloses. Never raise the limits to pass.
 
 14. **Weak tone touching ink is drawing; weak tone on its own is foxing.** Feather edges,
     bristles by the bill and the tails of brush strokes are faint but joined to real ink, so
     they stay. Faint marks with no path to ink are foxing or show-through and may go. Judge
-    every faint spot by this before keeping or dropping it. `vignette.py` does not apply this
-    rule yet; protect what touches ink by hand.
+    every faint spot by this before keeping or dropping it. `vignette.py` applies it: faint
+    tone that a seed reaches through ink, within `reach` px (default 48) of ink, is kept as
+    painted. That change is what got #348 approved.
 
 15. **Pale washes inside a body are not paper.** A cream or white breast close to page tone
     gets sampled into the page estimate and white-balanced to a blotchy white (the lower
@@ -194,6 +200,7 @@ a fresh review and sign-off.
 - `drop`: polygons removed outright: caption, signatures, an ink speck.
 - `fade`: `[polygon, px]` as in `plate.py`, where a wash has no edge of its own.
 - `zone`: polygons to flatten in, when the page should not be estimated everywhere.
+- `reach`: px from ink within which faint tone joined to the drawing is kept (default 48).
 
 Read `debug-mask.png` after every run: white is kept drawing, grey the margin, red is ink
 that was not connected to a seed and got dropped.

@@ -11,7 +11,8 @@ itself:
 - erased: drawing the cut kept opaque but painted over in page tone. vignette.py fades faint
   drawing toward the page colour rather than making it transparent, so `lost` cannot see it:
   a white chin by the bill, pale blossom, a dry twig end, a pale breast whitened by the
-  retone (maintainer, PR #348). erased.jpg sets each spot's scan beside its cut and beside
+  retone (maintainer, PR #348). A faded spot with no path to ink is foxing, reported apart
+  without failing. erased.jpg sets each spot's scan beside its cut and beside
   the final at the shipped size.
 - colour: mean saturation of the final against the scan (rule 5).
 - pockets: transparent holes inside the outline of final.png. An enclosed pocket is page-toned,
@@ -42,6 +43,7 @@ LIMITS = {
     "erased_rise": 4,  # faint drawing: this far above the page's own noise
     "erased_keep": 0.5,  # the cut must keep at least this share of the drawing's contrast
     "erased_px": 100,  # an erased blob this big fails: a chin, a blossom, a twig end
+    "erased_ink": 20,  # drawing an erased spot must touch to count; on its own it is foxing
     "saturation_ratio": 1.08,
     "fringe_dark_px": 0,
     "pocket_px": 0,
@@ -76,20 +78,27 @@ def gblur(a, sigma):
     return a
 
 
-def page_estimate(px):
+def page_estimate(px, page=None):
     """The local page tone, from pixels that look like page only (normalized convolution).
 
     A plain blur or max filter is dragged dark beside a large dark bird and then reports the
     clean page next to it as lost wash. Paper is sampled, interpolated under the drawing,
     and re-sampled once against that estimate, so a darker gutter is still page.
+
+    `page` fixes where to sample instead, such as where the scan had page.
     """
     h, w = px.shape[:2]
     small = np.asarray(Image.fromarray(px.astype(np.uint8), "RGB").reduce(8), np.float32)
+    if page is not None:
+        page = np.asarray(as_mask(page).reduce(8)) > 230
     luma = small.mean(axis=2)
-    ref = np.median(small[luma >= np.percentile(luma, 70)], axis=0)
+    ref = np.median(small[page if page is not None else luma >= np.percentile(luma, 70)], axis=0)
     est = np.broadcast_to(ref, small.shape)
     for tol, sigma in ((30, 12), (14, 6)):
-        near = (np.abs(small - est).max(axis=2) < tol).astype(np.float32)
+        if page is not None:
+            near = page.astype(np.float32)
+        else:
+            near = (np.abs(small - est).max(axis=2) < tol).astype(np.float32)
         weight = gblur(near, sigma)
         local = gblur(small * near[..., None], sigma) / np.maximum(weight, 1e-6)[..., None]
         trust = np.clip(weight / 0.1, 0, 1)[..., None]
@@ -281,17 +290,35 @@ def main(folder):
     view.thumbnail((2000, 2000))
     view.save(folder / "lost.jpg", quality=88)
 
-    # "erased" is drawing still inside the outline that the cut painted over in page tone
+    # "erased" is drawing still inside the outline that the cut painted over in page tone.
+    # A spot with no path to ink is foxing and may go; one joined to ink is drawing (#348).
     cut_rgb = cut[..., :3].astype(np.float32)
-    kept_contrast = np.abs(page_estimate(cut_rgb) - cut_rgb).max(axis=2)
-    faint = dense(D > noise + LIMITS["erased_rise"], sigma=3, share=0.3) & ~dropped
-    erased = faint & kept & (kept_contrast < LIMITS["erased_keep"] * D)
-    found = blobs(dense(erased, sigma=2, share=0.5), LIMITS["erased_px"])
+    # Judged against two page estimates, and erased only if both agree: the cut's own page
+    # takes in a pale breast near page tone, while the scan's page positions run thin
+    # between dense blossom.
+    page = (D < noise) & ~dropped
+    kept_contrast = np.maximum(
+        np.abs(page_estimate(cut_rgb) - cut_rgb).max(axis=2),
+        np.abs(page_estimate(cut_rgb, page) - cut_rgb).max(axis=2),
+    )
+    rise = noise + LIMITS["erased_rise"]
+    faint = dense(D > rise, sigma=3, share=0.3) & ~dropped
+    erased = dense(faint & kept & (kept_contrast < LIMITS["erased_keep"] * D), sigma=2, share=0.5)
+    ink = dense(D > noise + LIMITS["erased_ink"])
+    found, foxing = [], []
+    for size, (x0, y0, x1, y1) in blobs(erased, LIMITS["erased_px"]):
+        spot = erased[y0:y1, x0:x1]
+        if D[y0:y1, x0:x1][spot].mean() < rise:
+            continue  # paper grain at the edge of a stroke, not a faded part
+        ring = (slice(max(0, y0 - 6), y1 + 6), slice(max(0, x0 - 6), x1 + 6))
+        joined = bool((ink[ring] & ~erased[ring]).any())
+        (found if joined else foxing).append((size, [x0, y0, x1, y1]))
     results["erased"] = {
         "ok": not found,
         "blobs": [{"px": s, "bbox": b} for s, b in found[:12]],
+        "foxing": [{"px": s, "bbox": b} for s, b in foxing[:12]],
     }
-    erased_sheet(folder, crop, cut, [b for _, b in found[:12]])
+    erased_sheet(folder, crop, cut, [b for _, b in (found + foxing)[:12]])
 
     final_path = folder / "final.png"
     if final_path.exists():
@@ -366,10 +393,10 @@ def main(folder):
     ok = all(r["ok"] for r in results.values())
     (folder / "qa.json").write_text(json.dumps({"ok": ok, "limits": LIMITS, **results}, indent=2))
     for name, r in results.items():
-        hidden = ("ok", "strong", "pale", "specks", "bbox", "blobs")
+        hidden = ("ok", "strong", "pale", "specks", "bbox", "blobs", "foxing")
         detail = {k: v for k, v in r.items() if k not in hidden}
         if name == "erased":
-            detail = {"blobs": len(r["blobs"])}
+            detail = {"blobs": len(r["blobs"]), "foxing": len(r["foxing"])}
         if name == "lost":
             detail = {k: len(r[k]) for k in ("strong", "pale", "specks")}
         print(f"  {'ok  ' if r['ok'] else 'FAIL'} {name:12} {json.dumps(detail)}")

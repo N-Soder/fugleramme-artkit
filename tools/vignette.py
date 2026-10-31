@@ -21,7 +21,8 @@ never sampled as background and never matted: pale washes that are subject; thei
 corners are rounded `round` times), drop
 (polygons removed outright: caption, signatures), fade ([polygon, px] as in plate.py),
 enclosed pockets always kept and page-toned (PR #322),
-t0/t1 (matte thresholds), tol (final background tolerance), sigma, margin, close.
+t0/t1 (matte thresholds), reach (px from ink within which faint tone joined to it is
+kept), tol (final background tolerance), sigma, margin, close.
 """
 
 import json
@@ -169,6 +170,16 @@ def main(folder):
     outside = flood(np.pad(~sealed, 1, constant_values=True), (0, 0))[1:-1, 1:-1]
     solid = (~outside | ink | protect) & ~dropped
     raw = ((~outside & ~background) | ink | protect) & ~dropped
+    # Faint tone joined to the drawing is drawing: a white throat's edge, the pale rim of a
+    # blossom, a dry-brush stroke running past a twig's end. Only weak tone with no path to
+    # ink (foxing, show-through) still fades (maintainer, PR #348).
+    weak = (soften((D > t0) & ~dropped, 1) > 0.5) & grow(ink, p.get("reach", 48))
+    attached = np.zeros((h, w), bool)
+    for seed in p["seeds"]:
+        attached |= flood(weak | ink, seed)
+    attached &= weak & ~ink
+    raw |= attached
+    solid |= attached
     matte = np.clip((D - t0) / (t1 - t0), 0, 1)
     matte = np.maximum(matte, soften(shrink(raw, 1), 1.5))
     matte[dropped] = 0
