@@ -24,6 +24,7 @@ RECIPE = (
     "final-finish.png",
     "qa.py",
     "lost.jpg",
+    "erased.jpg",
     "disclosure.md",
 )
 

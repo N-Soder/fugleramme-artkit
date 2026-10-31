@@ -168,3 +168,21 @@ def test_floating_part_fails(art_python, tmp_path):
     cut(tmp_path, crop, [BIRD, far], joined=False)
     assert art_python(tmp_path).returncode == 1
     assert not verdict(tmp_path)["floating"]["ok"]
+
+
+def test_drawing_painted_over_in_page_tone_fails(art_python, tmp_path):
+    # PR #348: a pale twig end kept inside the outline but faded to the page colour.
+    # Nothing turned transparent, so the lost check passes; the erased check must not.
+    crop = plate(tmp_path, leaf=False)
+    twig = [(415, 240), (540, 240)]
+    ImageDraw.Draw(crop).line(twig, fill=(212, 202, 182), width=10)
+    crop.save(tmp_path / "crop.png")
+    cut(tmp_path, crop, [BIRD, [415, 225, 545, 255]])
+    painted = Image.open(tmp_path / "cut.png")
+    ImageDraw.Draw(painted).line([(440, 240), (540, 240)], fill=PAGE + (255,), width=14)
+    painted.save(tmp_path / "cut.png")
+    result = art_python(tmp_path)
+    assert result.returncode == 1, result.stdout
+    qa = verdict(tmp_path)
+    assert qa["lost"]["ok"] and not qa["erased"]["ok"]
+    assert (tmp_path / "erased.jpg").exists()

@@ -8,6 +8,11 @@ itself:
 - lost: drawing in the crop that the cut left transparent: eaten leaves, blossom, tail tips
   (rules 1 and 4). Strong ink and pale wash are reported apart, and `drop` polygons in
   params.json are intended removals, not losses. lost.jpg marks every blob.
+- erased: drawing the cut kept opaque but painted over in page tone. vignette.py fades faint
+  drawing toward the page colour rather than making it transparent, so `lost` cannot see it:
+  a white chin by the bill, pale blossom, a dry twig end, a pale breast whitened by the
+  retone (maintainer, PR #348). erased.jpg sets each spot's scan beside its cut and beside
+  the final at the shipped size.
 - colour: mean saturation of the final against the scan (rule 5).
 - pockets: transparent holes inside the outline of final.png. An enclosed pocket is page-toned,
   never cut open (maintainer, PR #322; upstream plate.py keeps enclosed paper too).
@@ -19,7 +24,7 @@ itself:
 - unconnected: drawing vignette.py did not reach from a seed (rule 6). A warning only: the
   lost check judges what those pixels were.
 
-Writes qa.json, lost.jpg and disclosure.md (the retouching a PR must name, rule 8). Exits 1
+Writes qa.json, lost.jpg, erased.jpg and disclosure.md (the retouching a PR must name, rule 8). Exits 1
 if any check fails. The checks back up a full-size look; they never replace one.
 """
 
@@ -34,6 +39,9 @@ LIMITS = {
     "box_run_px": 12,  # drawing along one edge for longer than this means a clipped box
     "lost_strong_px": 40,  # a lost blob of ink bigger than this fails
     "lost_pale_px": 400,  # pale wash is noisier; a blob this big is a lost leaf or blossom
+    "erased_rise": 4,  # faint drawing: this far above the page's own noise
+    "erased_keep": 0.5,  # the cut must keep at least this share of the drawing's contrast
+    "erased_px": 100,  # an erased blob this big fails: a chin, a blossom, a twig end
     "saturation_ratio": 1.08,
     "fringe_dark_px": 0,
     "pocket_px": 0,
@@ -141,6 +149,62 @@ def longest_run(values):
     return best
 
 
+SHIPPED_PX = 1200  # the long side of the image the app shows, and the maintainer reviews
+
+
+def erased_sheet(folder, crop, cut, boxes, pad=60, tile=360):
+    """Each erased spot: the scan and the cut on blue at full size, then the final as shipped.
+
+    The third column is final.png shrunk to SHIPPED_PX on the page tone and blown back up, so
+    a fade shows as the maintainer sees it (CUTTING.md rule 18).
+    """
+    scan = Image.fromarray(crop.astype(np.uint8), "RGB")
+    cut_image = Image.fromarray(cut, "RGBA")
+    shipped = None
+    final_path = folder / "final.png"
+    box = cut_image.getchannel("A").getbbox()
+    if final_path.exists() and box:
+        final = Image.open(final_path).convert("RGBA")
+        scale = SHIPPED_PX / max(final.size)
+        small = final.resize(
+            (round(final.width * scale), round(final.height * scale)), Image.Resampling.LANCZOS
+        )
+        shipped = Image.new("RGB", small.size, (0xF0, 0xEC, 0xE5))
+        shipped.paste(small, (0, 0), small)
+        to_shipped = small.width / (box[2] - box[0])
+    rows = []
+    for n, (x0, y0, x1, y1) in enumerate(boxes, 1):
+        area = (max(0, x0 - pad), max(0, y0 - pad), x1 + pad, y1 + pad)
+        tiles = [scan.crop(area)]
+        piece = cut_image.crop(area)
+        tiles.append(Image.new("RGB", piece.size, (70, 110, 160)))
+        tiles[1].paste(piece, (0, 0), piece)
+        if shipped is not None:
+            spot = [
+                round((v - o) * to_shipped)
+                for v, o in zip(area, (box[0], box[1], box[0], box[1]), strict=True)
+            ]
+            tiles.append(shipped.crop(spot).resize(piece.size, Image.Resampling.NEAREST))
+        for image in tiles:
+            image.thumbnail((tile, tile))
+        width = tiles[0].width
+        row = Image.new("RGB", (max(len(tiles) * (width + 10), 300), tiles[0].height + 20), "white")
+        for i, image in enumerate(tiles):
+            row.paste(image, (i * (width + 10), 20))
+        label = "scan | cut | shipped" if shipped is not None else "scan | cut"
+        ImageDraw.Draw(row).text((4, 4), f"{n}  {label}  {area}", fill=(200, 0, 0))
+        rows.append(row)
+    if not rows:
+        rows.append(Image.new("RGB", (2 * tile + 10, 40), "white"))
+        ImageDraw.Draw(rows[0]).text((4, 12), "nothing erased", fill=(0, 120, 0))
+    sheet = Image.new("RGB", (max(r.width for r in rows), sum(r.height for r in rows)), "white")
+    y = 0
+    for row in rows:
+        sheet.paste(row, (0, y))
+        y += row.height
+    sheet.save(folder / "erased.jpg", quality=88)
+
+
 def saturation(rgb):
     return (rgb.max(axis=1) - rgb.min(axis=1)) / np.maximum(rgb.max(axis=1), 1)
 
@@ -217,6 +281,18 @@ def main(folder):
     view.thumbnail((2000, 2000))
     view.save(folder / "lost.jpg", quality=88)
 
+    # "erased" is drawing still inside the outline that the cut painted over in page tone
+    cut_rgb = cut[..., :3].astype(np.float32)
+    kept_contrast = np.abs(page_estimate(cut_rgb) - cut_rgb).max(axis=2)
+    faint = dense(D > noise + LIMITS["erased_rise"], sigma=3, share=0.3) & ~dropped
+    erased = faint & kept & (kept_contrast < LIMITS["erased_keep"] * D)
+    found = blobs(dense(erased, sigma=2, share=0.5), LIMITS["erased_px"])
+    results["erased"] = {
+        "ok": not found,
+        "blobs": [{"px": s, "bbox": b} for s, b in found[:12]],
+    }
+    erased_sheet(folder, crop, cut, [b for _, b in found[:12]])
+
     final_path = folder / "final.png"
     if final_path.exists():
         final = np.asarray(Image.open(final_path).convert("RGBA")).astype(np.float64)
@@ -290,11 +366,16 @@ def main(folder):
     ok = all(r["ok"] for r in results.values())
     (folder / "qa.json").write_text(json.dumps({"ok": ok, "limits": LIMITS, **results}, indent=2))
     for name, r in results.items():
-        detail = {k: v for k, v in r.items() if k not in ("ok", "strong", "pale", "specks", "bbox")}
+        hidden = ("ok", "strong", "pale", "specks", "bbox", "blobs")
+        detail = {k: v for k, v in r.items() if k not in hidden}
+        if name == "erased":
+            detail = {"blobs": len(r["blobs"])}
         if name == "lost":
             detail = {k: len(r[k]) for k in ("strong", "pale", "specks")}
         print(f"  {'ok  ' if r['ok'] else 'FAIL'} {name:12} {json.dumps(detail)}")
-    print(f"{'PASS' if ok else 'FAIL'} {folder}  (see lost.jpg, qa.json, disclosure.md)")
+    print(
+        f"{'PASS' if ok else 'FAIL'} {folder}  (see lost.jpg, erased.jpg, qa.json, disclosure.md)"
+    )
     return ok
 
 

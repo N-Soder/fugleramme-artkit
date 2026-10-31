@@ -28,6 +28,13 @@ rest are gates a person passes. Nothing goes upstream with a failing check or a 
 | 10. No floating parts, straight cuts, sharp corners | `qa.py` *floating* and *lost* (a stub at a drop edge fails); review page |
 | 11. Box the bird short of long tips | Upstream `bird_box.py`; checked at the operator's final sign-off |
 | 12. One to three birds per PR | `fugart batch create` for the batch; PR prep |
+| 13. Painted over is lost too | `qa.py` *erased* and `erased.jpg` |
+| 14. Weak tone touching ink is drawing | `protect` by hand; agent's close-ups |
+| 15. Pale washes inside a body are not paper | `protect` by hand; `qa.py` *erased* |
+| 16. Protect polygons sit inside an open edge | Spec review; `qa.py` *erased*; review page outline |
+| 17. A wider outline brings back foxing | Old against new cut before showing; `qa.py` *lost* specks |
+| 18. Check at the size the maintainer sees | `erased.jpg` shipped column; agent's close-ups; review page |
+| 19. Circles say where, not everything | Agent's whole-plate pass after each review |
 
 Also not optional:
 - Seeds are in **working-crop** px: `plate.py` shrinks a crop to 2400 px on its long side, so
@@ -45,7 +52,19 @@ Also not optional:
 | Spotted Pardalote | Flowers, leaves and a bit of tail accidentally cut | Removed the overhead spray; pale blossom eaten by the paper threshold | Whole vignette, nothing thresholded |
 | Eastern Rosella | Tail feathers and leaves eaten into; stripper too aggressive; oversaturated | Paper threshold lowered to 166/172, which is paler than the leaves and tail tips | Whole vignette retoned, colour held to the scan |
 
-His summary: recut all five, less aggressively. And: LLM cuts work best on birds drawn on
+On [#348](https://github.com/arnegiacomo/fugleramme/pull/348) (2026-10) the same fault came
+back in a quieter form, past `qa.py`:
+
+| Plate | Maintainer's comment | What the cut did | Fix |
+| --- | --- | --- | --- |
+| Grey Shrike-thrush | White plumage and perch ends removed by the background remover | Faded the white chin by the bill and the dry branch end to page tone; also whitened the streaked breast of the lower bird | `protect` over chin, breast and branch end |
+| Golden Whistler | White plumage, flowers and perch ends removed | Faded both chins, the lower wattle blossom and two dry twig ends to page tone | `protect` over each |
+
+The cutter never made these transparent. It painted them in page colour and kept them
+opaque, so the *lost* check, which only reads transparency, passed them. Rule 13 and the
+*erased* check close that gap.
+
+His summary on #261: recut all five, less aggressively. And: LLM cuts work best on birds drawn on
 white paper, where there is an outline to follow.
 
 ## Rules
@@ -79,8 +98,9 @@ white paper, where there is an outline to follow.
 
 6. **Look where the damage hides.** Thumbnails and contact sheets hid every one of these
    faults. Before showing a cut, zoom scan against cut at full size on: every tail tip, every
-   pale leaf and blossom, every thin stalk, the head and neck edge, and the whole outline once
-   round. Check `N px not connected to a seed` in the cut's output and find what it was.
+   pale leaf and blossom, every thin stalk and every perch or twig end, the head and neck
+   edge, the chin and throat beside the bill, every white or pale breast, and the whole
+   outline once round. A fade to page tone is invisible on the paper view: flip to the scan. Check `N px not connected to a seed` in the cut's output and find what it was.
 
 7. **Choose plates that cut well.** A bird on white paper with its plants is a clean cut. A
    full painted scene is a whole-plate job: fine, but budget for it and expect a wide plate.
@@ -109,6 +129,46 @@ white paper, where there is an outline to follow.
 12. **One to three birds per PR.** The maintainer on issue #236: small PRs review faster and
     need fewer passes. Claim the species in an upstream issue first.
 
+13. **Painted over is lost too.** A cut can erase without cutting. `vignette.py` fades faint
+    drawing toward the page colour and keeps it opaque, and the halo is a fixed cream, so
+    anything that ends up that colour disappears into it. White plumage, pale blossom and
+    dry-brush ends sit within a few levels of the page, so any step that treats "near page
+    tone" as page flattens them, whether that is the background estimate or the matte: a chin
+    under the bill (the gape lets the page in), a white breast, a dry twig or perch end.
+    `qa.py` *erased* compares tone against the scan and fails any drawing the cut kept at
+    under half its contrast; `erased.jpg` puts each spot's scan beside its cut and the final at shipped size. Fix each with
+    `protect` (rule 16), then recut. A flag that is foxing gets a `drop` polygon, which the PR
+    discloses. Never raise the limits to pass.
+
+14. **Weak tone touching ink is drawing; weak tone on its own is foxing.** Feather edges,
+    bristles by the bill and the tails of brush strokes are faint but joined to real ink, so
+    they stay. Faint marks with no path to ink are foxing or show-through and may go. Judge
+    every faint spot by this before keeping or dropping it. `vignette.py` does not apply this
+    rule yet; protect what touches ink by hand.
+
+15. **Pale washes inside a body are not paper.** A cream or white breast close to page tone
+    gets sampled into the page estimate and white-balanced to a blotchy white (the lower
+    Shrike-thrush on #348). Nothing enclosed by the drawing should be sampled as page. Until
+    `vignette.py` does that itself, cover every pale body area with `protect`.
+
+16. **Protect polygons sit inside an open edge.** Inside a body, draw `protect` just outside
+    the paint. Where a pale area meets open page, keep the polygon a few px inside the drawn
+    edge: the halo follows a polygon that reaches into the page, and leaves a straight edge in
+    the outline (rule 10).
+
+17. **A wider outline brings back foxing.** Keeping more faint detail widens the outline and
+    its halo, and specks that sat outside it now show. After any change that widens the
+    outline, compare the new cut against the old one for marks that were not visible before.
+
+18. **Check at the size the maintainer sees.** On #348 full-size crops of scan and cut looked
+    fine; the losses showed in the shipped 1200 px image on the app's background. At every
+    flagged spot, compare scan, shipped and new cut side by side, on paper and on a
+    contrasting background.
+
+19. **A reviewer's circles say where, not everything that is wrong.** Map each circle to its
+    cause, then look for that cause across the whole plate. Every circle on #348 had one
+    cause, and looking for it found a fault nobody circled (rule 15).
+
 ## How to recut with vignette.py
 
 A candidate is a folder holding `crop.png` (from `plate.py crop`), `spec.json` (the approved
@@ -128,9 +188,9 @@ a fresh review and sign-off.
 
 - `seeds`: a point inside the drawing, crop px. One more for each detached part.
 - `balance`: the scan's paper RGB. Only used outside `zone`.
-- `protect`: polygons over pale washes that are subject (a tree trunk, painted water) and
-  would otherwise be read as page. They are never sampled as background and never faded.
-  Draw them just outside the paint.
+- `protect`: polygons over pale washes that are subject (a tree trunk, painted water, a white
+  chin or breast, blossom, a dry twig end) and would otherwise be read as page. They are never sampled as background and never faded.
+  Draw them just outside the paint, or a few px inside where the area meets open page (rule 16).
 - `drop`: polygons removed outright: caption, signatures, an ink speck.
 - `fade`: `[polygon, px]` as in `plate.py`, where a wash has no edge of its own.
 - `zone`: polygons to flatten in, when the page should not be estimated everywhere.
