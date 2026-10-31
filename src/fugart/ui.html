@@ -387,7 +387,7 @@ function gateCut(el, b) {
   const f = c.files;
   const layers = [
     ["blue", "On blue", f["cut.png"]], ["page", "On paper", f["cut.png"]], ["scan", "Scan", f["crop.png"]],
-    ["lost", "Lost drawing", f["lost.jpg"]], ["final", "Final", f["final.png"]],
+    ["lost", "Lost drawing", f["lost.jpg"]], ["erased", "Erased", f["erased.jpg"]], ["final", "Final", f["final.png"]],
   ].filter((l) => l[2]);
   if (!layers.find((l) => l[0] === state.layer)) state.layer = layers[0]?.[0];
   const qa = c.qa;

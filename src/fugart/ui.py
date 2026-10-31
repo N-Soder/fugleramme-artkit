@@ -48,6 +48,7 @@ SHOWN = (
     "preview.png",
     "debug-mask.png",
     "lost.jpg",
+    "erased.jpg",
     "qa.json",
     "tone.json",
     "disclosure.md",
